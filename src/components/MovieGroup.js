@@ -33,7 +33,6 @@ const gridItemStyle = {
 
 const MovieGroup = () => {
     const movieList = useSelector((state) => state.movie.movieList);
-    console.log(movieList);
     return (
         <Grid container sx={gridContainerStyle}>
             { movieList.map(movieItem => 
