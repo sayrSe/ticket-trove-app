@@ -37,7 +37,7 @@ const MovieGroup = () => {
     return (
         <Grid container sx={gridContainerStyle}>
             { movieList.map(movieItem => 
-                <Grid item sx={gridItemStyle}>
+                <Grid item sx={gridItemStyle} key={movieItem.id}>
                     <MovieCard key={movieItem.id} movie={movieItem}/>
                 </Grid>) }
         </Grid>
