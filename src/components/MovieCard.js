@@ -1,5 +1,6 @@
 import { Box } from '@mui/system'
 import { Typography, Button } from '@mui/material'
+import { NavLink } from 'react-router-dom'
 
 const boxStyle={
     display: 'flex',
@@ -36,7 +37,7 @@ const buttonStyle={
         backgroundColor: '#F2B000',
         textDecoration: 'underline',
         fontWeight: 'bold'
-    }
+    }   
 }
 
 const MovieCard = (props) => {
@@ -46,7 +47,7 @@ const MovieCard = (props) => {
             <Typography variant="h5" component="h5" sx={titleStyle}>{props.movie.title}</Typography>
             <Box component="span" sx={detailStyle}>{props.movie.short_description}</Box>
             <Box component="span" sx={detailStyle}>Rating: {props.movie.rating}</Box>
-            <Button sx={buttonStyle}>See Details</Button>
+            <Button sx={buttonStyle} component={NavLink} to={`/moviedetails/${props.movie.id}`}>See Details</Button>
         </Box>
     )
 }

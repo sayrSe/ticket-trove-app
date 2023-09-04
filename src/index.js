@@ -9,6 +9,7 @@ import Home from './components/Home';
 import { Provider } from 'react-redux';
 import { store } from './app/store.js';
 import Showtimes from './components/Showtimes'
+import MovieDetails from './components/MovieDetails';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([{
@@ -24,6 +25,11 @@ const router = createBrowserRouter([{
       path: "/showtimes",
       element: <Showtimes/>
     },
+    {
+      path: "/moviedetails/:id",
+      element: <MovieDetails/>
+    },
+    
   ]
 }])
 root.render(
