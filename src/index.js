@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
 import Home from './components/Home';
+import Showtimes from './components/Showtimes'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([{
@@ -16,6 +17,10 @@ const router = createBrowserRouter([{
     {
       index: true,
       element: <Home />
+    },
+    {
+      path: "/showtimes",
+      element: <Showtimes/>
     },
   ]
 }])
