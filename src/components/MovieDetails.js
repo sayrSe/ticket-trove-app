@@ -37,7 +37,8 @@ const MovieDetails = () => {
         <>
             <Box sx={boxContainerStyle}>
                 <Box sx={boxStyle}>
-                    <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
+                    <Typography variant="h4" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
+                    <Typography variant="h7" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.rating}</Typography>
                     <Box
                         component="img"
                         sx={{
@@ -46,6 +47,7 @@ const MovieDetails = () => {
                         alt="The house from the offer."
                         src={movieInfo.poster}
                     />
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>Runtime: {movieInfo.runtime}</Typography>
                     <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
                         <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>
                             Directed by:
