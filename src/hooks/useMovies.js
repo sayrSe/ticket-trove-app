@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import * as movieApi from "../../src/api/movieApi";
-import { resetMovies } from "../components/movieListSlice";
+import { resetMovies, resetMovieDetails } from "../components/movieListSlice";
 
 export const useMovies = () => {
     const dispatch = useDispatch();
@@ -10,7 +10,13 @@ export const useMovies = () => {
         dispatch(resetMovies(response.data));
     }
 
+    async function findMovie(id){
+        const response = await movieApi.findMovie(id);
+        dispatch(resetMovieDetails(response.data));
+    }
+
     return{
-        loadMovies
+        loadMovies,
+        findMovie
     }
 }
