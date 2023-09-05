@@ -10,7 +10,7 @@ const appBarStyle={
         md: 60,
     },
     backgroundColor: "#fafafa",
-    width: 1,
+    width: 1
 }
 
 const toolBarStyle = {
@@ -41,7 +41,7 @@ const buttonStyle={
 
 const Navigation = () => {
     return (
-      <AppBar position='static' sx={appBarStyle}>
+      <AppBar position='fixed' sx={appBarStyle}>
         <Toolbar sx={toolBarStyle}>
             <Box component="img" src={logo} alt={"Ticket trove logo"} edge='start' aria-label='logo' sx={logoStyle}/>
             <Stack direction='row' spacing={2}>
