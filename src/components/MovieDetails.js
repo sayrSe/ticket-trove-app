@@ -40,7 +40,9 @@ const MovieDetails = () => {
     const movieInfo = movieItems.find((movieItem) => movieItem.id === id);
     const hours = Math.floor((movieInfo.runtime)/60);
     const minutes = (movieInfo.runtime) % 60;
-
+    const movieRelease= (movieInfo.release).toString();
+    const releaseYear = movieRelease.substring(0,movieRelease.indexOf('-'));
+    
     return (
         <>
         <Grid>
