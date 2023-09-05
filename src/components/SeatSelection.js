@@ -2,6 +2,7 @@ import { Button, Box, Typography, Stack } from '@mui/material';
 import ChosenMovieCard from './ChosenMovieCard';
 import SeatsGroup from './SeatsGroup';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const boxStyle={
     marginTop: 5,
@@ -72,6 +73,7 @@ const SeatSelection = () => {
     const ticketPrice = 350;
     const maxAmount = 4;
 
+    const navigate = useNavigate();
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [isMaxedOut, setMaxedOut] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
@@ -116,7 +118,7 @@ const SeatSelection = () => {
             <Typography variant="h6" sx={headerStyle}>Total Amount:</Typography>
             <Box component="span" sx={spanStyle}>Php {totalAmount.toFixed(2)}</Box>
             <Stack direction='row' spacing={2}>
-                <Button sx={backButtonStyle}>Go Back</Button>
+                <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
                 <Button sx={buttonStyle} disabled={isDisabled}>Book Ticket</Button>
             </Stack>
         </Box>
