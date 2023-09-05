@@ -1,6 +1,6 @@
 import { Typography, Box, Button } from "@mui/material"
 import { useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useParams, NavLink } from "react-router-dom"
 
 const buttonStyle = {
     marginTop:2,
@@ -66,7 +66,7 @@ const MovieDetails = () => {
                     <Typography >{movieInfo.cast}</Typography>
                   
                 </Box>
-                <Button variant="contained" sx={buttonStyle} >View Locations</Button>
+                <Button variant="contained" component={NavLink} to={`/showtimes/${id}`} sx={buttonStyle} >View Locations</Button>
             </Box>
 
         </>
