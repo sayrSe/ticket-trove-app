@@ -44,9 +44,7 @@ const MovieDetails = () => {
     const movieInfo = useSelector((state) => state.movie.movieDetails);
     const hours = Math.floor((movieInfo.runtime)/60);
     const minutes = (movieInfo.runtime) % 60;
-    const movieRelease = movieInfo.releaseDate;
-    const releaseYear = movieRelease.substring(0,movieRelease.indexOf('-'));
-    
+
     return (
         <>
         <Grid>
@@ -54,7 +52,7 @@ const MovieDetails = () => {
                 <Box sx={boxStyle}>
                     <Grid sx={{textAlign:"left", marginLeft: 2}}>
                     <Typography variant="h4" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{releaseYear}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.releaseDate?.split("-")[0]}</Typography>
                     <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ◦ {movieInfo.rating}</Typography>
                     <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ◦ {hours}h {minutes}mins </Typography>
                     </Grid>
@@ -90,7 +88,7 @@ const MovieDetails = () => {
                     <Typography >{movieInfo.actors}</Typography>
                   </Grid>
                 </Box>
-                <Button variant="contained" component={NavLink} to={`/view-locations`} sx={buttonStyle} >View Locations</Button>
+                <Button variant="contained" component={NavLink} to={`/cinemas?movie_id=${id}`} sx={buttonStyle} >View Locations</Button>
             </Box>
             </Grid>
 
