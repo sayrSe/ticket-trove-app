@@ -23,6 +23,7 @@ const posterStyle={
 const detailStyle={
     marginLeft: 3,
     alignSelf: 'flex-start',
+    textAlign: 'left',
     fontSize: 16
 }
 
