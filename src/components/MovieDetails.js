@@ -86,7 +86,7 @@ const MovieDetails = () => {
                     <Typography >{movieInfo.cast}</Typography>
                   </Grid>
                 </Box>
-                <Button variant="contained" component={NavLink} to={`/showtimes/${id}`} sx={buttonStyle} >View Locations</Button>
+                <Button variant="contained" component={NavLink} to={`/view-locations`} sx={buttonStyle} >View Locations</Button>
             </Box>
             </Grid>
 
