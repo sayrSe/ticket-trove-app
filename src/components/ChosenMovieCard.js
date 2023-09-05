@@ -25,8 +25,8 @@ const imageStyle={
 const ChosenMovieCard = (props) => {
     return(
         <Box sx={boxStyle}>
-            <Typography variant="h5" sx={textStyle} component="h4" style={{ fontWeight: "bold" }}>{props.movie.title}</Typography>
-            <Typography variant="h8" sx={textStyle} component="h8">{props.movie.release} ◦ {props.movie.rating}  ◦ {props.movie.runtime} minutes</Typography>
+            <Typography variant="h5" sx={textStyle} style={{ fontWeight: "bold" }}>{props.movie.title}</Typography>
+            <Typography variant="h8" sx={textStyle}>{props.movie.release} ◦ {props.movie.rating}  ◦ {props.movie.runtime} minutes</Typography>
             <Box
                         component="img"
                         sx={imageStyle}
