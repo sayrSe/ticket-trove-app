@@ -6,8 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
 import Home from './components/Home';
+import ViewLocations from './components/ViewLocations';
 import { Provider } from 'react-redux';
-import { store } from './app/store.js';
+import { store } from '../src/app/store';
 import Showtimes from './components/Showtimes'
 import MovieDetails from './components/MovieDetails';
 
@@ -20,6 +21,10 @@ const router = createBrowserRouter([{
     {
       index: true,
       element: <Home />
+    },
+    {
+      path: 'view-locations',
+      element: <ViewLocations />,
     },
     {
       path: "/showtimes/:id",
