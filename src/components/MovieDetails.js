@@ -39,7 +39,7 @@ const MovieDetails = () => {
                 <Box sx={boxStyle}>
                     <Typography variant="h4" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
                     <Typography variant="h7" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.rating}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ● Runtime: {movieInfo.runtime}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ● Runtime: {movieInfo.runtime} minutes</Typography>
                     <Box
                         component="img"
                         sx={{
