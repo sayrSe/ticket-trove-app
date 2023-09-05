@@ -48,7 +48,7 @@ const MovieCard = (props) => {
             <Typography variant="h5" component="h5" sx={titleStyle}>{props.movie.title}</Typography>
             <Box component="span" sx={detailStyle}>{props.movie.short_description}</Box>
             <Box component="span" sx={detailStyle}>Rating: {props.movie.rating}</Box>
-            <Button sx={buttonStyle} component={NavLink} to={`/moviedetails/${props.movie.id}`}>See Details</Button>
+            <Button sx={buttonStyle} component={NavLink} to={`/movies/${props.movie.id}`}>See Details</Button>
         </Box>
     )
 }

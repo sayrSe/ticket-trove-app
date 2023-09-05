@@ -3,7 +3,7 @@ import axios from "axios";
 const api = axios.create(
   {
     development: {
-      baseURL: "https://64edf7ca1f872182714219ea.mockapi.io/api/v1/",
+      baseURL: "http://localhost:8080",
     },
     qa: {
       baseURL: "tickettrove-qa.up.railway.app/",

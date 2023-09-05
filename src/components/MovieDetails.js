@@ -1,7 +1,8 @@
-import { Typography, Box, Button, Grid } from "@mui/material"
-import { alignProperty } from "@mui/material/styles/cssUtils"
+import { Box, Button, Grid, Typography } from "@mui/material"
+import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { useParams, NavLink } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
+import { useMovies } from "../hooks/useMovies"
 
 const buttonStyle = {
     marginTop:2,
@@ -36,8 +37,11 @@ const boxContainerStyle = {
 
 const MovieDetails = () => {
     const { id } = useParams();
-    const movieItems = useSelector((state) => state.movie.movieList);
-    const movieInfo = movieItems.find((movieItem) => movieItem.id === id);
+
+    const { findMovie } = useMovies();
+    useEffect(() => {findMovie(id)}, [id]);
+    
+    const movieInfo = useSelector((state) => state.movie.movieDetails);
     const hours = Math.floor((movieInfo.runtime)/60);
     const minutes = (movieInfo.runtime) % 60;
     const movieRelease= (movieInfo.release).toString();
