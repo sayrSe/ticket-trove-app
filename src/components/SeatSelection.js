@@ -3,6 +3,11 @@ import ChosenMovieCard from './ChosenMovieCard';
 import SeatsGroup from './SeatsGroup';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import { styled } from '@mui/material/styles';
 
 const boxStyle={
     marginTop: 5,
@@ -46,7 +51,7 @@ const bookDisabledButtonStyle = {
     color: '#fafafa'
 }
 
-const bookButtonStyle = {
+const themedButtonStyle = {
     backgroundColor: '#00A4BD',
     color: '#fafafa',
     '&:hover':{
@@ -55,6 +60,15 @@ const bookButtonStyle = {
         fontWeight: 'bold'
     },
 }
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+}));
 
 const SeatSelection = () => {
     const userInfo = {movie: {
@@ -78,14 +92,15 @@ const SeatSelection = () => {
     const [isMaxedOut, setMaxedOut] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
     const [totalAmount, setTotalAmount] = useState(0.00);
-    const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle)
+    const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
+    const [isOpen, setIsOpen] = useState(false);
 
-    const onChangeSeatState = (newSeat) => {
+    const handleChangeSeatState = (newSeat) => {
         let selectedLength = selectedSeats.length;
         if(selectedSeats.findIndex(seat => seat === newSeat) === -1){
             setSelectedSeats([...selectedSeats, newSeat].sort((a,b) => a-b))
             setDisabled(false);
-            setButtonStyle(bookButtonStyle);
+            setButtonStyle(themedButtonStyle);
             selectedLength++;
             if(selectedLength === maxAmount) setMaxedOut(true);
         }else{
@@ -100,8 +115,28 @@ const SeatSelection = () => {
         setTotalAmount(selectedLength*ticketPrice)
     }
 
+    const handleOpen = () =>{
+        setIsOpen(true);
+    }
+
+    const handleClose = () =>{
+        setIsOpen(false);
+    }
+
     return(
         <Box sx={boxStyle}>
+            <BootstrapDialog onClose={handleClose} aria-labelledby="maxed-out-seats" open={isOpen}>
+                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">Maxed Tickets!</DialogTitle>
+                <DialogContent dividers>
+                <Typography gutterBottom>You have reached maximum tickets per transaction. Only a maximum of four tickets is allowed.</Typography>
+                </DialogContent>
+                <DialogActions>
+                <Button autoFocus onClick={handleClose} sx={themedButtonStyle}>
+                    Okay
+                </Button>
+                </DialogActions>
+            </BootstrapDialog>
+            
             <Typography variant="h4" style={{fontWeight: 'bold'}}>Seat Selection</Typography>
             <ChosenMovieCard movie={userInfo.movie}/>
             <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
@@ -112,7 +147,7 @@ const SeatSelection = () => {
             <Box component="span" sx={spanStyle}>{userInfo.address}</Box>
             <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
             <Box component="span" sx={spanStyle}>{userInfo.showtime}</Box>
-            <SeatsGroup onChangeSeatState={onChangeSeatState} isMaxedOut={isMaxedOut}/>
+            <SeatsGroup onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen}/>
             <Typography variant="h6" sx={headerStyle}>Selected Seats:</Typography>
             <Box component="span" sx={spanStyle}>{selectedSeats.length === 0? <Box>None</Box> : <Box>{selectedSeats.join(', ')}</Box>}</Box>
             <Typography variant="h6" sx={headerStyle}>Total Amount:</Typography>
