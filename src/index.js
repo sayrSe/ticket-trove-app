@@ -9,8 +9,9 @@ import Home from './components/Home';
 import ViewLocations from './components/ViewLocations';
 import { Provider } from 'react-redux';
 import { store } from '../src/app/store';
-import Showtimes from './components/Showtimes'
+import Showtimes from './components/Showtimes';
 import MovieDetails from './components/MovieDetails';
+import SeatSelection from './components/SeatSelection';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([{
@@ -23,18 +24,21 @@ const router = createBrowserRouter([{
       element: <Home />
     },
     {
-      path: 'view-locations',
+      path: '/cinemas/:id',
       element: <ViewLocations />,
     },
     {
-      path: "/showtimes/:id",
+      path: "/cinemas/:id/showtimes",
       element: <Showtimes/>
     },
     {
       path: "/movies/:id",
       element: <MovieDetails/>
     },
-    
+    {
+      path: "/cinemas/:id/seats",
+      element: <SeatSelection />
+    },
   ]
 }])
 root.render(
