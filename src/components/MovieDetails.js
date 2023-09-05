@@ -18,32 +18,37 @@ const boxStyle = {
         xs: 1,
         md: 350,
     },
-    textAlign: "left"
+    textAlign: "left",
+    marginTop: 2,
 }
 const boxContainerStyle = {
     marginTop: 5,
     display: "flex",
-    justifyContent: "center",
     flexDirection: 'column',
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom:5
 }
+
 
 const MovieDetails = () => {
     const { id } = useParams();
     const movieItems = useSelector((state) => state.movie.movieList);
     const movieInfo = movieItems.find((movieItem) => movieItem.id === id);
+    const hours = Math.floor((movieInfo.runtime)/60);
+    const minutes = (movieInfo.runtime) % 60;
 
     return (
         <>
             <Box sx={boxContainerStyle}>
                 <Box sx={boxStyle}>
                     <Typography variant="h4" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
-                    <Typography variant="h7" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.rating}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ● Runtime: {movieInfo.runtime} minutes</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.release}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ◦ {movieInfo.rating}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ◦ {hours}h {minutes}mins </Typography>
                     <Box
                         component="img"
                         sx={{
-                            width: 350,
+                            width: 300,
                         }}
                         src={movieInfo.poster}
                     />
