@@ -45,7 +45,6 @@ const MovieDetails = () => {
                         sx={{
                             width: 350,
                         }}
-                        alt="The house from the offer."
                         src={movieInfo.poster}
                     />
 
