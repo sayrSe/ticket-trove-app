@@ -76,13 +76,13 @@ const MovieDetails = () => {
                     <Typography >{movieInfo.director}</Typography>
                     <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
                         <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>
-                            Synopsis:
+                            Synopsis
                         </Typography>
                     </Box>
                     <Typography >{movieInfo.synopsis}</Typography>
                     <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
                         <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>
-                            Cast:
+                            Cast
                         </Typography>
                     </Box>
                     <Typography >{movieInfo.actors}</Typography>
