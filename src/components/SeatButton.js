@@ -27,7 +27,7 @@ const iconStyleChosen = {
 }
 
 const SeatButton = (props) => {
-    const [iconStyle, setIconStyle] = useState(props.seat.isAvailable ? iconStyleAvailable : iconStyleReserved);
+    const [iconStyle, setIconStyle] = useState(props.seat.reserved ? iconStyleReserved : iconStyleAvailable);
     const [isSelected, setSelected] = useState(false);
     
     const onSeatClick = () => {
@@ -40,12 +40,12 @@ const SeatButton = (props) => {
             }
             setIconStyle(iconStyleChosen);
         }
-        props.onChangeSeatState(props.seat.id);
+        props.onChangeSeatState(props.seat);
         setSelected(!isSelected);
     }
 
     return(
-        <Button onClick={onSeatClick} disabled={!props.seat.isAvailable}><EventSeatIcon sx={iconStyle}/></Button>
+        <Button onClick={onSeatClick} disabled={props.seat.reserved}><EventSeatIcon sx={iconStyle}/></Button>
     )    
 }
 
