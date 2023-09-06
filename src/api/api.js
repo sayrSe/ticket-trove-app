@@ -6,7 +6,7 @@ const api = axios.create(
       baseURL: "http://localhost:8080",
     },
     qa: {
-      baseURL: "tickettrove-qa.up.railway.app/",
+      baseURL: "tickettrove-qa.up.railway.app",
     },
   }[process.env.REACT_APP_ENV || "development"]
 );
