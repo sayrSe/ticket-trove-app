@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { NavLink, useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useMovies } from "../hooks/useMovies"
 
 const buttonStyle = {
@@ -45,6 +45,15 @@ const MovieDetails = () => {
     const hours = Math.floor((movieInfo.runtime)/60);
     const minutes = (movieInfo.runtime) % 60;
 
+    const navigate = useNavigate();
+    const handleViewLocations = () => {
+        navigate('/cinemas', { state: 
+            { movieInfo: movieInfo,
+                movieId: id 
+            } 
+        });
+    };
+    
     return (
         <>
         <Grid>
@@ -88,7 +97,7 @@ const MovieDetails = () => {
                     <Typography >{movieInfo.actors}</Typography>
                   </Grid>
                 </Box>
-                <Button variant="contained" component={NavLink} to={`/cinemas?movie_id=${id}`} sx={buttonStyle} >View Locations</Button>
+                <Button variant="contained"  sx={buttonStyle} onClick={handleViewLocations}>View Locations</Button>
             </Box>
             </Grid>
 
@@ -96,5 +105,4 @@ const MovieDetails = () => {
 
     )
 }
-
 export default MovieDetails;
