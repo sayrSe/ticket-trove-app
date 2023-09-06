@@ -3,16 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 const seatLayoutSlice = createSlice({
     name: "seats",
     initialState:{
-        seatLayout: {
-            showtimeId: '',
-            capacity: '',
+        hall: {
+            hallNumber: '',
             maxRow: '',
+            maxCol: '',
             seats: []
         }
     },
     reducers: {
         loadSeatLayout : (state, action) => {
-            state.seatLayout = action.payload;
+            state.hall = action.payload;
         }
     }
 })

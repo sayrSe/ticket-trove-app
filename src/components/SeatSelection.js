@@ -21,7 +21,8 @@ const boxStyle={
     justifyContent:"center",
     width:{
         xs: 1,
-        md: 500,
+        md: 600,
+        lg: 800
     },
     margin: '0 auto',
     marginBottom: 10,
@@ -75,7 +76,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const SeatSelection = () => {
-    const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+    const rowDictionary = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
     const { loadSeats } = useSeats();
     const { findMovie } = useMovies();
 
@@ -94,7 +95,7 @@ const SeatSelection = () => {
     }, []);
     
     const movieInfo = useSelector((state) => state.movie?.movieDetails);
-    const seatLayout = useSelector((state) => state.seat?.seatLayout);
+    const seatLayout = useSelector((state) => state.seat?.hall);
 
     const ticketPrice = 350;
     const maxAmount = 4;
@@ -129,7 +130,7 @@ const SeatSelection = () => {
            }
         }
         setTotalAmount(selectedLength*ticketPrice);
-        const newDisplay = newSelectedSeats.map(seat => alphabet[seat.rowNum - 1] + seat.seatNum);
+        const newDisplay = newSelectedSeats.map(seat => rowDictionary[seat.rowNum - 1] + seat.seatNum);
         setSelectedDisplay(newDisplay);
     }
 

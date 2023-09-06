@@ -4,12 +4,10 @@ import SeatButton from './SeatButton'
 const boxStyle={
     width: {
         xs: 0.95,
-        sm: 600
+        md: 600,
+        lg: 800
     },
-    marginLeft: {
-        xs: 0,
-        sm: 5
-    },
+    margin: '0 auto',
     display: 'flex',
     flexDirection: 'row',
 }
@@ -23,16 +21,12 @@ const rowStyle={
 }
 
 const containerStyle = {
-    width: {
-        xs: 0.9,
-        sm: 500
-    },
+    width: 0.9,
     display: 'flex',
-    justifyContent: 'center',
 }
 
 const itemStyle = {
-    border: '1px solid #000'
+    border: 'none',
 }
 
 const screenStyle = {
@@ -41,14 +35,15 @@ const screenStyle = {
         xs: 0.9,
         md: 1
     },
+    margin: '0 auto',
     marginBottom: 1,
     color: "#fafafa"
 }
 
 const SeatsGroup = (props) => {
-    const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
+    const rowDictionary = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
     const rows = props.seatLayout?.maxRow;
-    const columns = Math.ceil(props.seatLayout?.seats.length / rows);
+    const columns = props.seatLayout?.maxCol;
     const cinemaHallSeat = props.seatLayout?.seats;
 
     return(
@@ -57,7 +52,7 @@ const SeatsGroup = (props) => {
             <Grid container sx={boxStyle}>
                 <Grid container sx={rowStyle}>
                     {[...Array(rows)]?.map((row_number, index) => 
-                        <Grid item key={index} xs={12/columns} sx={{fontWeight: 'bold', flex: 1}}>{alphabet[index]}</Grid>)}
+                        <Grid item key={index} xs={12/columns} sx={{fontWeight: 'bold', flex: 1}}>{rowDictionary[index]}</Grid>)}
                 </Grid>
                 <Grid container sx={containerStyle}>
                     {cinemaHallSeat?.map(seat =>

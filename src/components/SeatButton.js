@@ -45,7 +45,7 @@ const SeatButton = (props) => {
     }
 
     return(
-        <Button onClick={onSeatClick} disabled={props.seat.reserved}><EventSeatIcon sx={iconStyle}/></Button>
+        <Button onClick={onSeatClick} disabled={props.seat.reserved || !props.seat.available}>{props.seat.available && <EventSeatIcon sx={iconStyle}/>}</Button>
     )    
 }
 
