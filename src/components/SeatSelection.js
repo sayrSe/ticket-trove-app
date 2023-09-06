@@ -12,6 +12,7 @@ import { useSeats } from './../hooks/useSeats';
 import { useMovies } from '../hooks/useMovies';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import * as cinemaApi from "../../src/api/cinemaApi";
 
 const boxStyle={
     marginTop: 5,
@@ -85,13 +86,26 @@ const SeatSelection = () => {
     const parameters = new URLSearchParams(search);
     const showtimeId = parameters.get('showtime_id');
     const userDate = parameters.get('date');
-    const location = parameters.get('location');
+    const cinemaId = parameters.get('cinema_id');
+
+    const [cinema, setCinema] = useState();
     
     useEffect(() => {
         findMovie(id);
-        //load location here
-        //load showtime here
-        loadSeats(showtimeId);
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await cinemaApi.getCinemaById(cinemaId);
+            setCinema(response.data);
+        }
+        fetchData()
+    }, []);
+    
+    //load showtime here
+    
+    useEffect(() => {
+        loadSeats(showtimeId)
     }, []);
     
     const movieInfo = useSelector((state) => state.movie?.movieDetails);
@@ -163,10 +177,10 @@ const SeatSelection = () => {
             <Box component="span" sx={spanStyle}>{userDate}</Box>
             
             <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
-            <Box component="span" sx={spanStyle}>[LOCATION NAME HERE]</Box>
+            <Box component="span" sx={spanStyle}>{cinema?.name}</Box>
             
             <Typography variant="h6" sx={headerStyle}>Cinema Address:</Typography>
-            <Box component="span" sx={spanStyle}>[LOCATION ADDRESS HERE]</Box>
+            <Box component="span" sx={spanStyle}>{cinema?.address}</Box>
             
             <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
             <Box component="span" sx={spanStyle}>[SHOWTIME HERE]</Box>

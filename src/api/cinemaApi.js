@@ -11,3 +11,7 @@ export const getCinemaDetails = (id) => {
 export const getDate = (movie_id) => {
   return api.get(`/movies/showtime/${movie_id}`);
 };
+
+export const getCinemaById = (id) => {
+  return api.get(`/cinemas/${id}`);
+};
