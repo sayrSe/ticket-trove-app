@@ -186,7 +186,7 @@ const SeatsGroup = (props) => {
                 </Grid>
                 <Grid container sx={containerStyle}>
                     {cinemaHallSeat.map(seat =>
-                        <Grid item key={seat.id} xs={12/columns} sx={itemStyle}><SeatButton key={seat.id} seat={seat} onChangeSeatState={props.onChangeSeatState} isMaxedOut={props.isMaxedOut}/></Grid>
+                        <Grid item key={seat.id} xs={12/columns} sx={itemStyle}><SeatButton key={seat.id} seat={seat} onChangeSeatState={props.onChangeSeatState} isMaxedOut={props.isMaxedOut} onMaxedClick={props.onMaxedClick}/></Grid>
                     )}
                 </Grid>
             </Grid>

@@ -35,7 +35,7 @@ const SeatButton = (props) => {
             setIconStyle(iconStyleAvailable);
         else{
             if(props.isMaxedOut){ 
-                alert('You have reached the maximum tickets per transaction!!!')
+                props.onMaxedClick();
                 return;
             }
             setIconStyle(iconStyleChosen);
