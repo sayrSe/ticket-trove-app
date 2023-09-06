@@ -23,10 +23,13 @@ const imageStyle={
 }
 
 const ChosenMovieCard = (props) => {
+    const hours = Math.floor((props.movie.runtime)/60);
+    const minutes = (props.movie.runtime) % 60;
+
     return(
         <Box sx={boxStyle}>
             <Typography variant="h5" sx={textStyle} style={{ fontWeight: "bold" }}>{props.movie.title}</Typography>
-            <Typography variant="h8" sx={textStyle}>{props.movie.release} ◦ {props.movie.rating}  ◦ {props.movie.runtime} minutes</Typography>
+            <Typography variant="h8" sx={textStyle}>{props.movie.releaseDate?.split("-")[0]} ◦ {props.movie.rating}  ◦ {hours}h {minutes}mins </Typography>
             <Box
                         component="img"
                         sx={imageStyle}

@@ -1,13 +1,17 @@
 import { Button, Box, Typography, Stack } from '@mui/material';
 import ChosenMovieCard from './ChosenMovieCard';
 import SeatsGroup from './SeatsGroup';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { styled } from '@mui/material/styles';
+import { useSeats } from './../hooks/useSeats';
+import { useMovies } from '../hooks/useMovies';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 const boxStyle={
     marginTop: 5,
@@ -71,24 +75,33 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const SeatSelection = () => {
-    const userInfo = {movie: {
-            id: 1,
-            title: 'Meg 2: The Trench',
-            release: '2023',
-            rating: 'PG-13',
-            runtime: 116,
-            poster: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg',
-        },
-        date: '20202020',
-        location: 'Ayala Malls Cloverleaf',
-        showtime: '11:00 AM, Hall1',
-        address: 'A. Bonifacio Avenue, Barangay Balingasa'
-    }
+    const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+    const { loadSeats } = useSeats();
+    const { findMovie } = useMovies();
+
+    const { id } = useParams();
+    const { search } = useLocation();
+    const parameters = new URLSearchParams(search);
+    const showtimeId = parameters.get('showtime_id');
+    const userDate = parameters.get('date');
+    const location = parameters.get('location');
+    
+    useEffect(() => {
+        findMovie(id);
+        //load location here
+        //load showtime here
+        loadSeats(showtimeId);
+    }, []);
+    
+    const movieInfo = useSelector((state) => state.movie?.movieDetails);
+    const seatLayout = useSelector((state) => state.seat?.seatLayout);
+
     const ticketPrice = 350;
     const maxAmount = 4;
 
     const navigate = useNavigate();
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedDisplay, setSelectedDisplay] = useState([]);
     const [isMaxedOut, setMaxedOut] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
     const [totalAmount, setTotalAmount] = useState(0.00);
@@ -97,22 +110,27 @@ const SeatSelection = () => {
 
     const handleChangeSeatState = (newSeat) => {
         let selectedLength = selectedSeats.length;
-        if(selectedSeats.findIndex(seat => seat === newSeat) === -1){
-            setSelectedSeats([...selectedSeats, newSeat].sort((a,b) => a-b))
+        let newSelectedSeats = [];
+        if(selectedSeats.findIndex(seat => seat.id === newSeat.id) === -1){
+            newSelectedSeats = [...selectedSeats, newSeat].sort((a,b) => a.rowNum-b.rowNum || a.seatNum-b.seatNum);
+            setSelectedSeats(newSelectedSeats)
             setDisabled(false);
             setButtonStyle(themedButtonStyle);
             selectedLength++;
             if(selectedLength === maxAmount) setMaxedOut(true);
         }else{
-            setSelectedSeats([...selectedSeats.filter(seats => seats !== newSeat)])
+            newSelectedSeats = [...selectedSeats.filter(seats => seats !== newSeat)];
+            setSelectedSeats(newSelectedSeats)
             setMaxedOut(false);
             selectedLength--;
             if(selectedLength=== 0){
                 setDisabled(true);
                 setButtonStyle(bookDisabledButtonStyle);
-            }
+           }
         }
-        setTotalAmount(selectedLength*ticketPrice)
+        setTotalAmount(selectedLength*ticketPrice);
+        const newDisplay = newSelectedSeats.map(seat => alphabet[seat.rowNum - 1] + seat.seatNum);
+        setSelectedDisplay(newDisplay);
     }
 
     const handleOpen = () =>{
@@ -138,20 +156,28 @@ const SeatSelection = () => {
             </BootstrapDialog>
             
             <Typography variant="h4" style={{fontWeight: 'bold'}}>Seat Selection</Typography>
-            <ChosenMovieCard movie={userInfo.movie}/>
+            <ChosenMovieCard movie={movieInfo}/>
+            
             <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
-            <Box component="span" sx={spanStyle}>{userInfo.date}</Box>
+            <Box component="span" sx={spanStyle}>{userDate}</Box>
+            
             <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
-            <Box component="span" sx={spanStyle}>{userInfo.location}</Box>
+            <Box component="span" sx={spanStyle}>[LOCATION NAME HERE]</Box>
+            
             <Typography variant="h6" sx={headerStyle}>Cinema Address:</Typography>
-            <Box component="span" sx={spanStyle}>{userInfo.address}</Box>
+            <Box component="span" sx={spanStyle}>[LOCATION ADDRESS HERE]</Box>
+            
             <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
-            <Box component="span" sx={spanStyle}>{userInfo.showtime}</Box>
-            <SeatsGroup onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen}/>
+            <Box component="span" sx={spanStyle}>[SHOWTIME HERE]</Box>
+            
+            <SeatsGroup seatLayout={seatLayout} onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen}/>
+            
             <Typography variant="h6" sx={headerStyle}>Selected Seats:</Typography>
-            <Box component="span" sx={spanStyle}>{selectedSeats.length === 0? <Box>None</Box> : <Box>{selectedSeats.join(', ')}</Box>}</Box>
+            <Box component="span" sx={spanStyle}>{selectedSeats.length === 0? <Box>None</Box> : <Box>{selectedDisplay.join(', ')}</Box>}</Box>
+            
             <Typography variant="h6" sx={headerStyle}>Total Amount:</Typography>
             <Box component="span" sx={spanStyle}>Php {totalAmount.toFixed(2)}</Box>
+            
             <Stack direction='row' spacing={2}>
                 <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
                 <Button sx={buttonStyle} disabled={isDisabled}>Book Ticket</Button>
