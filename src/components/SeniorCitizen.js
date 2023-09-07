@@ -46,7 +46,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 const SeniorCitizen = () => {
     const [open, setOpen] = React.useState();
     const [inputValue, setValue] = React.useState("");
-    const [totalStyle, setTotalPriceStyle] = React.useState(totalPriceStyle);
+    const [totalStyle, setTotalPriceStyle] = React.useState(textStyle);
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -64,7 +64,7 @@ const SeniorCitizen = () => {
         if (/^\d*\.?\d*$/.test(newValue) && newValue <= 4) {
             setValue(newValue);
             setTotalPriceStyle(totalPriceStyle);
-            if(newValue==="0"){
+            if(newValue == 0 || newValue === ''){
                 setTotalPriceStyle(textStyle);
             }
         }

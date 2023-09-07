@@ -9,14 +9,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { styled } from '@mui/material/styles';
 import DetailsGroup from './DetailsGroup';
-import * as showtimeApi from "../../src/api/showtimeApi";
 import { useLocation } from 'react-router-dom';
-import * as cinemaApi from "../../src/api/cinemaApi";
 import { useSeats } from './../hooks/useSeats';
 import { useMovies } from '../hooks/useMovies';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Stack } from '@mui/material';
+import * as showtimeApi from "../../src/api/showtimeApi";
+import * as cinemaApi from "../../src/api/cinemaApi";
+import { NavLink } from 'react-router-dom'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -74,6 +75,7 @@ const Confirmation = () => {
     const [disabledButton, setDisabledButton] = useState(true);
     const [confirmStyle, setConfirmStyle] = useState(disabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
+    const [openSuccess, setOpenSuccess] = useState(false);
 
     const { loadSeats } = useSeats();
     const { findMovie } = useMovies();
@@ -124,19 +126,11 @@ const Confirmation = () => {
         }
     }, [code]);
 
-    const verifyCode = async (phoneNumber, code) => {
-            const response = await otpApi.verifyCode(phoneNumber, code);
-            if(!response.data.matched){
-                handleOpen();
-            }else{
-                alert('CORRECT');
-            }
-    }
-
+    
     const updateCode = (value) =>{
         setCode(value);
     }
-
+    
     const updatePhone = (value) =>{
         setPhoneNumber(value);
     }
@@ -148,9 +142,22 @@ const Confirmation = () => {
     const handleOpen = () =>{
         setIsOpen(true);
     }
-
+    
     const handleClose = () =>{
         setIsOpen(false);
+    }
+    
+    const verifyCode = async (phoneNumber, code) => {
+            const response = await otpApi.verifyCode(phoneNumber, code);
+            if(!response.data.matched){
+                handleOpen();
+            }else{
+                createBooking();
+            }
+    }
+
+    const createBooking = () => {
+        setOpenSuccess(true);
     }
 
     return(
@@ -163,6 +170,19 @@ const Confirmation = () => {
                 <DialogActions>
                 <Button autoFocus onClick={handleClose} sx={confirmButtonStyle}>
                     Okay
+                </Button>
+                </DialogActions>
+            </BootstrapDialog>
+
+            <BootstrapDialog onClose={handleClose} aria-labelledby="maxed-out-seats" open={openSuccess}>
+                <DialogTitle sx={{ m: 0, p: 2 }} id="wrong-code">Congrats, you've successfully booked tickets!</DialogTitle>
+                <DialogContent dividers>
+                <Typography gutterBottom>Please arrive at your chosen cinema location 20 minutes before your selected showtime to settle your payment.</Typography>
+                <Typography gutterBottom>The booking information will also be sent on your phone number via SMS.</Typography>
+                </DialogContent>
+                <DialogActions>
+                <Button autoFocus component={NavLink} to={'/'} sx={confirmButtonStyle}>
+                    Go Home
                 </Button>
                 </DialogActions>
             </BootstrapDialog>
