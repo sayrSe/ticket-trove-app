@@ -14,7 +14,6 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import * as cinemaApi from "../../src/api/cinemaApi";
 import * as showtimeApi from "../../src/api/showtimeApi";
-import ClipLoader from 'react-spinners/ClipLoader';
 import { NavLink } from 'react-router-dom'
 
 const boxStyle={
@@ -110,17 +109,6 @@ const SeatSelection = () => {
     const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    const handleLoading = () => {
-        setIsLoading(false);
-    }
-
-    useEffect(()=>{
-        window.addEventListener("load",handleLoading);
-        return () => window.removeEventListener("load",handleLoading);
-    },[])
-
     useEffect(() => {
         const fetchData = async () => {
             const response = await showtimeApi.getShowtimeById(showtimeId);
@@ -197,51 +185,51 @@ const SeatSelection = () => {
         setIsOpen(false);
     }
 
-    return !isLoading ? (
-        <Box sx={boxStyle}>
-            <BootstrapDialog onClose={handleClose} aria-labelledby="maxed-out-seats" open={isOpen}>
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">Maxed Tickets!</DialogTitle>
-                <DialogContent dividers>
-                <Typography gutterBottom>You have reached maximum tickets per transaction. Only a maximum of four tickets is allowed.</Typography>
-                </DialogContent>
-                <DialogActions>
-                <Button autoFocus onClick={handleClose} sx={themedButtonStyle}>
-                    Okay
-                </Button>
-                </DialogActions>
-            </BootstrapDialog>
-            
-            <Typography variant="h4" style={{fontWeight: 'bold'}}>Seat Selection</Typography>
-            <ChosenMovieCard movie={movieInfo}/>
-            
-            <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
-            <Box component="span" sx={spanStyle}>{new Date(showtime.startTime).toLocaleDateString("en-PH", {year: 'numeric', month: 'long', day: 'numeric'})}</Box>
-            
-            <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
-            <Box component="span" sx={spanStyle}>{cinema?.name}</Box>
-            
-            <Typography variant="h6" sx={headerStyle}>Cinema Address:</Typography>
-            <Box component="span" sx={spanStyle}>{cinema?.address}</Box>
-            
-            <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
-            <Box component="span" sx={spanStyle}>
-                {new Date(showtime.startTime).toLocaleTimeString("en-PH", {hour: "2-digit", minute: "2-digit", hour12: "true"})}, Hall {showtime.hallId}
-            </Box>
-            
-            <SeatsGroup seatLayout={seatLayout} onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen} rowDictionary={rowDictionary}/>
-            
-            <Typography variant="h6" sx={headerStyle}>Selected Seats:</Typography>
-            <Box component="span" sx={spanStyle}>{selectedSeats.length === 0? <Box>None</Box> : <Box>{selectedDisplay.join(', ')}</Box>}</Box>
-            
-            <Typography variant="h6" sx={headerStyle}>Total Amount:</Typography>
-            <Box component="span" sx={spanStyle}>Php {totalAmount.toFixed(2)}</Box>
-            
-            <Stack direction='row' spacing={2}>
-                <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
-                <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtimeId=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
-            </Stack>
+    return (
+    <Box sx={boxStyle}>
+        <BootstrapDialog onClose={handleClose} aria-labelledby="maxed-out-seats" open={isOpen}>
+            <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">Maxed Tickets!</DialogTitle>
+            <DialogContent dividers>
+            <Typography gutterBottom>You have reached maximum tickets per transaction. Only a maximum of four tickets is allowed.</Typography>
+            </DialogContent>
+            <DialogActions>
+            <Button autoFocus onClick={handleClose} sx={themedButtonStyle}>
+                Okay
+            </Button>
+            </DialogActions>
+        </BootstrapDialog>
+        
+        <Typography variant="h4" style={{fontWeight: 'bold'}}>Seat Selection</Typography>
+        <ChosenMovieCard movie={movieInfo}/>
+        
+        <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
+        <Box component="span" sx={spanStyle}>{new Date(showtime.startTime).toLocaleDateString("en-PH", {year: 'numeric', month: 'long', day: 'numeric'})}</Box>
+        
+        <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
+        <Box component="span" sx={spanStyle}>{cinema?.name}</Box>
+        
+        <Typography variant="h6" sx={headerStyle}>Cinema Address:</Typography>
+        <Box component="span" sx={spanStyle}>{cinema?.address}</Box>
+        
+        <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
+        <Box component="span" sx={spanStyle}>
+            {new Date(showtime.startTime).toLocaleTimeString("en-PH", {hour: "2-digit", minute: "2-digit", hour12: "true"})}, Hall {showtime.hallId}
         </Box>
-    ) : (<ClipLoader />)
+        
+        <SeatsGroup seatLayout={seatLayout} onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen} rowDictionary={rowDictionary}/>
+        
+        <Typography variant="h6" sx={headerStyle}>Selected Seats:</Typography>
+        <Box component="span" sx={spanStyle}>{selectedSeats.length === 0? <Box>None</Box> : <Box>{selectedDisplay.join(', ')}</Box>}</Box>
+        
+        <Typography variant="h6" sx={headerStyle}>Total Amount:</Typography>
+        <Box component="span" sx={spanStyle}>Php {totalAmount.toFixed(2)}</Box>
+        
+        <Stack direction='row' spacing={2}>
+            <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
+            <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtime_id=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
+        </Stack>
+    </Box>
+    )
 } 
 
 export default SeatSelection;
