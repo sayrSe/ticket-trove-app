@@ -1,5 +1,6 @@
 import { Box, Typography, TextField, Stack, Button } from '@mui/material';
-import { useState} from 'react';
+import { useState } from 'react';
+import { useOtp } from '../hooks/useOtp';
 
 const containerStyle={
     display: 'flex',
@@ -48,21 +49,26 @@ const otpInputStyle={
 }
 
 const OtpConfirmation = () => {
+    const { generateOtp } = useOtp();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otpNumber, setOtpNumber] = useState('');
 
     const handleInputNumber = (event) => {
-        if(isValid(event.target.value))
+        if(event.target.value.length <= 11 && isValid(event.target.value))
             setPhoneNumber(event.target.value);
     }
 
     const handleInputOtp = (event) => {
-        if(isValid(event.target.value))
+        if(event.target.value.length <= 6 && isValid(event.target.value))
             setOtpNumber(event.target.value);
     }
 
     const isValid = (value) => {
         return /^\d+$/.test(value) || value === '';
+    }
+
+    const handleSendClick = () => {
+        generateOtp(phoneNumber);
     }
 
     return(
@@ -72,7 +78,7 @@ const OtpConfirmation = () => {
                 <Box sx={phoneInputStyle}>
                     <TextField fullWidth required={true} size={'small'} id="phone-number" variant="outlined" value={phoneNumber} onChange={handleInputNumber}/>
                 </Box>
-                <Button sx={sendButtonStyle} >Send</Button>
+                <Button sx={sendButtonStyle} onClick={handleSendClick} >Send</Button>
             </Stack>
             <Typography variant="h6" sx={headerStyle}>Verification Code:</Typography>
             <Box sx={otpInputStyle}>
