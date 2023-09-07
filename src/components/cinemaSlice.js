@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const cinemaSlice = createSlice({
-  name: 'cinemas',
+  name: 'cinemaNames',
   initialState: [],
   reducers: {
-    setCinemas: (state, action) => {
+    setCinemaNames: (state, action) => {
       return action.payload;
     },
   },
 });
 
-export const { setCinemas } = cinemaSlice.actions;
+export const { setCinemaNames } = cinemaSlice.actions;
 export default cinemaSlice.reducer;
