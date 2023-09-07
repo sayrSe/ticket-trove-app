@@ -1,4 +1,4 @@
-import { ClickAwayListener, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
@@ -57,10 +57,10 @@ const SeniorCitizen = () => {
     const senior = {
         id: 1,
         unitPrice: 400,
-        seatCount: 4
     }
     const handleChange = event => {
         const newValue = event.target.value;
+
         if (/^\d*\.?\d*$/.test(newValue) && newValue <= 4) {
             setValue(newValue);
             setTotalPriceStyle(totalPriceStyle);
@@ -87,7 +87,7 @@ const SeniorCitizen = () => {
             <Box sx={{ boxStyle }}>
                 <Typography variant="h8" component="h4" sx={{ textStyle }}>Number of Senior Citizens: </Typography>
                 <TextField
-                    
+                
                     id="senior-number"
                     size="small"
                     variant="outlined"
@@ -99,7 +99,6 @@ const SeniorCitizen = () => {
                     }}
 
                 />
-                <ClickAwayListener onClickAway={handleTooltipClose}>
                     <HtmlTooltip
                         PopperProps={{
                             disablePortal: true,
@@ -123,7 +122,7 @@ const SeniorCitizen = () => {
                     >
                         <InfoIcon color="action" fontSize="small" onClick={handleTooltipOpen} />
                     </HtmlTooltip>
-                </ClickAwayListener >
+
             </Box>
             <Box alignItems="left" justifyContent="left">
                 <Typography id="totalPriceField" variant="h8" component="h4" sx={totalStyle}>Total Price: {(senior.unitPrice) * seatCount} </Typography>
