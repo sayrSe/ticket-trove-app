@@ -9,12 +9,15 @@ import {
   ListItemText,
   Button,
   IconButton,
-  FormControl,
   Dialog,
   DialogContent,
   RadioGroup,
   FormControlLabel,
   Radio,
+  Grid,
+  Typography,
+  Stack,
+  Box,
 } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -90,7 +93,7 @@ const ViewLocations = () => {
     navigate(-1);
   };
 
-  const handleViewShowtimes = () => {
+const handleViewShowtimes = () => {
     if (selectedLocation && selectedDate) {
       const dateObject = new Date(selectedDate);
       const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)
@@ -98,7 +101,6 @@ const ViewLocations = () => {
         .padStart(2, '0')}-${dateObject.getDate().toString().padStart(2, '0')}`;
   
       const showtimesPath = `/movies/${movieId}/showtimes?cinemaId=${selectedLocation}&date=${formattedDate}`;
-      console.log(showtimesPath);
       navigate(showtimesPath, {
         state: {
             movieInfo: movieInfo,
@@ -129,88 +131,175 @@ const ViewLocations = () => {
     color: 'black',
   };
 
-  console.log("cinemaNames:", cinemaNames);
-  
+  const headerStyle={
+    marginLeft: 2,
+    alignSelf: 'flex-start',
+    textAlign: 'left',
+    fontWeight: 'bold'
+  }
+
+  const btnContainerStyle = {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    marginBottom: '50px'
+  }
+
+  const mainLocationContainer = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: {
+        xs: 1,
+        md: 350,
+    }
+}
+
+const mainContainer = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+}
+
+const showItemContainer = {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'left',
+    flexDirection: 'column',
+    marginBottom: '30px'
+}
+
+const showItem = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: "90%",
+  marginLeft: "15px",
+
+  border: "1px solid rgba(215,215,215,0.5)",
+  cursor: 'pointer',
+  '&:selected': {
+      backgroundColor: '#00A4BD',
+  },
+}
+
+const showItemDate = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: "80%",
+  marginLeft: "15px",
+
+  cursor: 'pointer',
+  '&:selected': {
+      backgroundColor: '#00A4BD',
+  },
+}
+
   return (
-    <div>
-      <div className="movie-poster">
-        {movieInfo && (
-            <>
-              <h3>{movieInfo.title}</h3>
-              <p>{movieInfo.releaseDate?.split("-")[0]}&nbsp;◦&nbsp;{movieInfo.rating}&nbsp;◦&nbsp;{hours}h {minutes}mins</p>
-              <img src={movieInfo.poster} alt="Movie Poster" />
-            </>
-          )}
-      </div>
-      <FormControl>
-        <h4>Select Date</h4>
-        <Button 
-          variant="outlined" 
-          onClick={handleOpenDialog} 
-          endIcon={<KeyboardArrowDownIcon />}
-          style={blackButtonStyle}>
-          {formatDate(selectedDate)}
-        </Button>
-        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-          <DialogContent>
-            <RadioGroup value={selectedDate} onChange={handleDateChange}>
-              {dateOptions.map((dateOption) => (
-                <FormControlLabel
-                  key={dateOption.value}
-                  value={dateOption.value}
-                  control={<Radio />}
-                  label={dateOption.label}
-                  labelPlacement="start"
-                />
-              ))}
-            </RadioGroup>
-          </DialogContent>
-        </Dialog>
-      </FormControl>
-      <h4>Select Location</h4>
-      <List>
-          {cinemaNames.map((cinema) => (
-            <ListItem
-              key={cinema.id}
-              button
-              onClick={() => handleCinemaClick(cinema)}
-              selected={selectedLocation === cinema.id}
-            >
-              <ListItemText
-                primary={`${cinema.name}`}
-              />
-              {selectedLocation === cinema.id && (
-                <IconButton color="primary" >
-                  <CircleIcon style={{ color: '#F2B000'}} />
-                </IconButton>
-              )}
-            </ListItem>
-          ))}
-      </List>      
-             
-      <Button
-        variant="contained"
-        onClick={handleGoBack}
-        style={grayButtonStyle}
-      >
-        Go Back
-      </Button>
-      &nbsp;
-      &nbsp;
-      &nbsp;
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleViewShowtimes}
-        disabled={!(selectedLocation && selectedDate)}
-        style={{
-          backgroundColor: selectedLocation && selectedDate ? '#00A4BD' : 'gray',
-          color: selectedLocation && selectedDate ? '#FAFAFA' : 'white',}}
-      >
-        View Showtimes
-      </Button>      
-    </div>
+      <>
+        <Grid>
+          <Box sx={mainContainer}>
+            <Box sx={mainLocationContainer}>
+              <Typography variant="h4" style={{ fontWeight: 'bold' }}>View Locations</Typography>
+              <Grid sx={{ textAlign: 'left', marginLeft: 2, marginBottom: 1 }}>
+                <Typography variant="h6" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
+                <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.releaseDate?.split("-")[0]}</Typography>
+                <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {movieInfo.rating}</Typography>
+                <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {hours}h {minutes}mins </Typography>
+              </Grid>
+              <Box
+                component='img'
+                sx={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: 350,
+                  maxWidth: 250,
+                }}
+                src={movieInfo.poster}
+                alt='Movie Poster'
+              >
+              </Box>
+              <Box>
+                <Typography variant="h6" sx={headerStyle}>Select Date:</Typography>
+                <Box component="span" sx={showItemDate}>
+                  <Button
+                    variant="outlined"
+                    onClick={handleOpenDialog}
+                    endIcon={<KeyboardArrowDownIcon />}
+                    style={blackButtonStyle}
+                  >
+                    {formatDate(selectedDate)}
+                  </Button>
+                  <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                    <DialogContent>
+                      <RadioGroup value={selectedDate} onChange={handleDateChange}>
+                        {dateOptions.map((dateOption) => (
+                          <FormControlLabel
+                            key={dateOption.value}
+                            value={dateOption.value}
+                            control={<Radio />}
+                            label={dateOption.label}
+                            labelPlacement="start"
+                          />
+                        ))}
+                      </RadioGroup>
+                    </DialogContent>
+                  </Dialog>
+                </Box >
+                <br>
+                </br>
+                <Typography variant="h6" sx={headerStyle}>Select Location:</Typography>
+                <Box component="span" sx={showItemContainer}>
+                  <List>
+                    {cinemaNames.map((cinema) => (
+                      <ListItem
+                        key={cinema.id}
+                        button
+                        onClick={() => handleCinemaClick(cinema)}
+                        selected={selectedLocation === cinema.id}
+                        sx={showItem}
+                      >
+                        <ListItemText
+                          primary={`${cinema.name}`}
+                        />
+                        {selectedLocation === cinema.id && (
+                          <IconButton color="primary" >
+                            <CircleIcon style={{ color: '#F2B000' }} />
+                          </IconButton>
+                        )}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              </Box>
+            </Box>
+            <Stack direction='row' spacing={2} sx={btnContainerStyle}>
+              <Button
+                variant="contained"
+                onClick={handleGoBack}
+                style={grayButtonStyle}
+              >
+                Go Back
+              </Button>
+              &nbsp;
+              &nbsp;
+              &nbsp;
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleViewShowtimes}
+                disabled={!(selectedDate && selectedLocation)}
+                style={{
+                  backgroundColor: selectedLocation && selectedDate ? '#00A4BD' : 'gray',
+                  color: selectedLocation && selectedDate ? '#FAFAFA' : 'white',
+                }}
+              >
+                View Showtimes
+              </Button>
+            </Stack>
+          </Box>
+        </Grid>
+      </>
   );
+
 };
 
 export default ViewLocations;

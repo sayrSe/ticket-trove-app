@@ -13,6 +13,9 @@ import { useMovies } from '../hooks/useMovies';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import * as cinemaApi from "../../src/api/cinemaApi";
+import * as showtimeApi from "../../src/api/showtimeApi";
+import ClipLoader from 'react-spinners/ClipLoader';
+import { NavLink } from 'react-router-dom'
 
 const boxStyle={
     marginTop: 5,
@@ -85,10 +88,10 @@ const SeatSelection = () => {
     
     const { search } = useLocation();
     const parameters = new URLSearchParams(search);
-    const movieId = parameters.get('movie_id');
     const showtimeId = parameters.get('showtime_id');
-    const userDate = parameters.get('date');
-    const cinemaId = parameters.get('cinema_id');
+    const [movieId, setMovieId] = useState('');
+    const [showtime, setShowtime] = useState('');
+    const [cinemaId, setCinemaId] = useState('');
     
     
     const movieInfo = useSelector((state) => state.movie?.movieDetails);
@@ -107,23 +110,42 @@ const SeatSelection = () => {
     const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleLoading = () => {
+        setIsLoading(false);
+    }
+
+    useEffect(()=>{
+        window.addEventListener("load",handleLoading);
+        return () => window.removeEventListener("load",handleLoading);
+    },[])
+
     useEffect(() => {
-        findMovie(movieId);
+        const fetchData = async () => {
+            const response = await showtimeApi.getShowtimeById(showtimeId);
+            setMovieId(response.data.movieId);
+            setShowtime(response.data);
+            setCinemaId(response.data.cinemaId);
+        }
+        fetchData()
     }, []);
+
+    useEffect(() => {
+        if(movieId !== '') findMovie(movieId);
+    }, [movieId]);
     
     useEffect(() => {
         const fetchData = async () => {
             const response = await cinemaApi.getCinemaById(cinemaId);
             setCinema(response.data);
         }
-        fetchData()
-    }, []);
-    
-    //load showtime here
+        if(cinemaId !== '') fetchData()
+    }, [cinemaId]);
     
     useEffect(() => {
         loadSeats(showtimeId);
-    }, []);
+    }, [showtimeId]);
 
     useEffect(() => {
         if(seatLayout?.maxRow > 26){
@@ -175,7 +197,7 @@ const SeatSelection = () => {
         setIsOpen(false);
     }
 
-    return(
+    return !isLoading ? (
         <Box sx={boxStyle}>
             <BootstrapDialog onClose={handleClose} aria-labelledby="maxed-out-seats" open={isOpen}>
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">Maxed Tickets!</DialogTitle>
@@ -193,7 +215,7 @@ const SeatSelection = () => {
             <ChosenMovieCard movie={movieInfo}/>
             
             <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
-            <Box component="span" sx={spanStyle}>{userDate}</Box>
+            <Box component="span" sx={spanStyle}>{new Date(showtime.startTime).toLocaleDateString("en-PH", {year: 'numeric', month: 'long', day: 'numeric'})}</Box>
             
             <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
             <Box component="span" sx={spanStyle}>{cinema?.name}</Box>
@@ -202,7 +224,9 @@ const SeatSelection = () => {
             <Box component="span" sx={spanStyle}>{cinema?.address}</Box>
             
             <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
-            <Box component="span" sx={spanStyle}>[SHOWTIME HERE]</Box>
+            <Box component="span" sx={spanStyle}>
+                {new Date(showtime.startTime).toLocaleTimeString("en-PH", {hour: "2-digit", minute: "2-digit", hour12: "true"})}, Hall {showtime.hallId}
+            </Box>
             
             <SeatsGroup seatLayout={seatLayout} onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen} rowDictionary={rowDictionary}/>
             
@@ -214,10 +238,10 @@ const SeatSelection = () => {
             
             <Stack direction='row' spacing={2}>
                 <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
-                <Button sx={buttonStyle} disabled={isDisabled}>Book Ticket</Button>
+                <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtimeId=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
             </Stack>
         </Box>
-    )
-}
+    ) : (<ClipLoader />)
+} 
 
 export default SeatSelection;
