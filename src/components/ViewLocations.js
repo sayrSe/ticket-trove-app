@@ -99,7 +99,12 @@ const ViewLocations = () => {
   
       const showtimesPath = `/movies/${movieId}/showtimes?cinemaId=${selectedLocation}&date=${formattedDate}`;
       console.log(showtimesPath);
-      navigate(showtimesPath);
+      navigate(showtimesPath, {
+        state: {
+            movieInfo: movieInfo,
+            movieId: movieId,
+        }
+      });
     } else {
       alert('Please select a cinema location.');
     }
