@@ -123,6 +123,9 @@ const SeatSelection = () => {
     
     useEffect(() => {
         loadSeats(showtimeId);
+    }, []);
+
+    useEffect(() => {
         if(seatLayout?.maxRow > 26){
             let newRowDictionary = [...rowDictionary];
             let firstLetterIndex = 0;
@@ -137,7 +140,7 @@ const SeatSelection = () => {
             }
             setRowDictionary(newRowDictionary);
         }
-    }, []);
+    }, [seatLayout]);
     
     const handleChangeSeatState = (newSeat) => {
         let selectedLength = selectedSeats.length;
