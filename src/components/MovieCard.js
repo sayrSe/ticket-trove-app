@@ -44,11 +44,11 @@ const buttonStyle={
 const MovieCard = (props) => {
     return (
         <Box className="MovieCard" sx={boxStyle}>
-            <Box sx={posterStyle} component="img" src={props.movie.poster} alt={props.movie.title + " Movie Poster"} />
-            <Typography variant="h5" component="h5" sx={titleStyle}>{props.movie.title}</Typography>
-            <Box component="span" sx={detailStyle}>{props.movie.shortDescription}</Box>
-            <Box component="span" sx={detailStyle}>Rating: {props.movie.rating}</Box>
-            <Button sx={buttonStyle} component={NavLink} to={`/movies/${props.movie.id}`}>See Details</Button>
+            <Box sx={posterStyle} component="img" src={props.movie?.poster} alt={props.movie?.title + " Movie Poster"} />
+            <Typography variant="h5" component="h5" sx={titleStyle}>{props.movie?.title}</Typography>
+            <Box component="span" sx={detailStyle}>{props.movie?.shortDescription}</Box>
+            <Box component="span" sx={detailStyle}>Rating: {props.movie?.rating}</Box>
+            <Button sx={buttonStyle} component={NavLink} to={`/movies/${props.movie?.id}`}>See Details</Button>
         </Box>
     )
 }

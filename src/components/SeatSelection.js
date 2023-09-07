@@ -14,7 +14,6 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import * as cinemaApi from "../../src/api/cinemaApi";
 import * as showtimeApi from "../../src/api/showtimeApi";
-import ClipLoader from 'react-spinners/ClipLoader';
 import { NavLink } from 'react-router-dom'
 
 const boxStyle={
@@ -227,7 +226,7 @@ const SeatSelection = () => {
         
         <Stack direction='row' spacing={2}>
             <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
-            <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtimeId=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
+            <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtime_id=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
         </Stack>
     </Box>
     )
