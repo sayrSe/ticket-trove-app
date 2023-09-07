@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const showTimeListSlice = createSlice({
     name: "showtimes",
     initialState:{
-        showTimeList:[]
+        showtimes:[]
     },
     reducers: {
         resetShowTimes: (state, action) => {
-            state.showTimeList = action.payload;
+            state.showtimes = action.payload;
         }
     }
 });
