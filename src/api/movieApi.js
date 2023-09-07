@@ -8,6 +8,6 @@ export const findMovie = (id) => {
     return api.get(`/movies/${id}`)
 }
 
-export const getShowtimes = () => {
-    return api.get('/showtime')
+export const getShowtimes = (movieId, cinemaId, showDate) => {
+    return api.get(`/movies/${movieId}/showtimes?cinemaId=${cinemaId}&date=${showDate}`)
 }
