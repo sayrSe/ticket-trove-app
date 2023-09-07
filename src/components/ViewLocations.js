@@ -144,6 +144,13 @@ const handleViewShowtimes = () => {
     marginBottom: '50px'
   }
 
+  const selectDateContainer = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: '20px',
+  }
+
   const mainLocationContainer = {
     alignItems: 'center',
     justifyContent: 'center',
@@ -193,6 +200,37 @@ const showItemDate = {
   },
 }
 
+const selectShowtimeStyle = {
+  backgroundColor: '#00A4BD',
+  width: '194px',
+  height: '55px',
+  fontSize: '17px',
+  fontWeight: '700',
+  color:'#FAFAFA',
+  '&:disabled': {
+      backgroundColor: '#B9B9B9',
+      color: '#FAFAFA',
+  },
+  '&:hover': {
+      color:'#FAFAFA',
+      backgroundColor:'#F2B000'
+  }
+}
+
+const backBtnStyle = {
+  backgroundColor: '#666',
+  width: '150px',
+  height: '55px',
+  color: '#FAFAFA',
+  fontSize: '20px',
+  fontWeight: '700',
+  margin: 0,
+  '&:hover': {
+      backgroundColor: '#aaa',
+      color: '#FAFAFA',
+  }
+}
+
   return (
       <>
         <Grid>
@@ -217,7 +255,7 @@ const showItemDate = {
                 alt='Movie Poster'
               >
               </Box>
-              <Box>
+              <Box sx={selectDateContainer}>
                 <Typography variant="h6" sx={headerStyle}>Select Date:</Typography>
                 <Box component="span" sx={showItemDate}>
                   <Button
@@ -248,8 +286,8 @@ const showItemDate = {
                 </br>
                 <Typography variant="h6" sx={headerStyle}>Select Location:</Typography>
                 <Box component="span" sx={showItemContainer}>
-                  <List>
-                    {cinemaNames.map((cinema) => (
+                <List>
+                    {Array.isArray(cinemaNames) && cinemaNames.map((cinema) => (
                       <ListItem
                         key={cinema.id}
                         button
@@ -262,7 +300,7 @@ const showItemDate = {
                         />
                         {selectedLocation === cinema.id && (
                           <IconButton color="primary" >
-                            <CircleIcon style={{ color: '#F2B000' }} />
+                            <CircleIcon style={{ color: '#f2b000', fontSize: '16px' }} />
                           </IconButton>
                         )}
                       </ListItem>
@@ -276,12 +314,11 @@ const showItemDate = {
                 variant="contained"
                 onClick={handleGoBack}
                 style={grayButtonStyle}
+                sx={backBtnStyle}
               >
                 Go Back
               </Button>
-              &nbsp;
-              &nbsp;
-              &nbsp;
+              
               <Button
                 variant="contained"
                 color="primary"
@@ -291,6 +328,7 @@ const showItemDate = {
                   backgroundColor: selectedLocation && selectedDate ? '#00A4BD' : 'gray',
                   color: selectedLocation && selectedDate ? '#FAFAFA' : 'white',
                 }}
+                sx={selectShowtimeStyle}
               >
                 View Showtimes
               </Button>
