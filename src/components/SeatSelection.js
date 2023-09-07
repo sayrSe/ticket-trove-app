@@ -77,23 +77,40 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const SeatSelection = () => {
-    const rowDictionary = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+    const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+
     const { loadSeats } = useSeats();
     const { findMovie } = useMovies();
-
+    const navigate = useNavigate();
+    
     const { search } = useLocation();
     const parameters = new URLSearchParams(search);
     const movieId = parameters.get('movie_id');
     const showtimeId = parameters.get('showtime_id');
     const userDate = parameters.get('date');
     const cinemaId = parameters.get('cinema_id');
-
-    const [cinema, setCinema] = useState();
     
+    
+    const movieInfo = useSelector((state) => state.movie?.movieDetails);
+    const seatLayout = useSelector((state) => state.seat?.hall);
+    
+    const ticketPrice = 350;
+    const maxAmount = 4;
+    
+    const [cinema, setCinema] = useState();
+    const [rowDictionary, setRowDictionary] = useState(alphabet);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedDisplay, setSelectedDisplay] = useState([]);
+    const [isMaxedOut, setMaxedOut] = useState(false);
+    const [isDisabled, setDisabled] = useState(true);
+    const [totalAmount, setTotalAmount] = useState(0.00);
+    const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
+    const [isOpen, setIsOpen] = useState(false);
+
     useEffect(() => {
         findMovie(movieId);
     }, []);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             const response = await cinemaApi.getCinemaById(cinemaId);
@@ -105,24 +122,23 @@ const SeatSelection = () => {
     //load showtime here
     
     useEffect(() => {
-        loadSeats(showtimeId)
+        loadSeats(showtimeId);
+        if(seatLayout?.maxRow > 26){
+            let newRowDictionary = [...rowDictionary];
+            let firstLetterIndex = 0;
+            let secondLetterIndex = 0;
+            for(let index = 0; index < seatLayout.maxRow - 26; index++){
+                newRowDictionary.push(alphabet[firstLetterIndex]+alphabet[secondLetterIndex]);
+                secondLetterIndex++;
+                if(secondLetterIndex === 26){
+                    firstLetterIndex++;
+                    secondLetterIndex = 0;
+                }
+            }
+            setRowDictionary(newRowDictionary);
+        }
     }, []);
     
-    const movieInfo = useSelector((state) => state.movie?.movieDetails);
-    const seatLayout = useSelector((state) => state.seat?.hall);
-
-    const ticketPrice = 350;
-    const maxAmount = 4;
-
-    const navigate = useNavigate();
-    const [selectedSeats, setSelectedSeats] = useState([]);
-    const [selectedDisplay, setSelectedDisplay] = useState([]);
-    const [isMaxedOut, setMaxedOut] = useState(false);
-    const [isDisabled, setDisabled] = useState(true);
-    const [totalAmount, setTotalAmount] = useState(0.00);
-    const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
-    const [isOpen, setIsOpen] = useState(false);
-
     const handleChangeSeatState = (newSeat) => {
         let selectedLength = selectedSeats.length;
         let newSelectedSeats = [];
@@ -185,7 +201,7 @@ const SeatSelection = () => {
             <Typography variant="h6" sx={headerStyle}>Selected Showtime:</Typography>
             <Box component="span" sx={spanStyle}>[SHOWTIME HERE]</Box>
             
-            <SeatsGroup seatLayout={seatLayout} onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen}/>
+            <SeatsGroup seatLayout={seatLayout} onChangeSeatState={handleChangeSeatState} isMaxedOut={isMaxedOut} onMaxedClick={handleOpen} rowDictionary={rowDictionary}/>
             
             <Typography variant="h6" sx={headerStyle}>Selected Seats:</Typography>
             <Box component="span" sx={spanStyle}>{selectedSeats.length === 0? <Box>None</Box> : <Box>{selectedDisplay.join(', ')}</Box>}</Box>

@@ -41,7 +41,6 @@ const screenStyle = {
 }
 
 const SeatsGroup = (props) => {
-    const rowDictionary = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
     const rows = props.seatLayout?.maxRow;
     const columns = props.seatLayout?.maxCol;
     const cinemaHallSeat = props.seatLayout?.seats;
@@ -53,7 +52,7 @@ const SeatsGroup = (props) => {
                 <Grid container sx={boxStyle}>
                     <Grid container sx={rowStyle} spacing={0}>
                         {[...Array(rows)]?.map((row_number, index) => 
-                            <Grid item key={index} xs={12/columns} sx={{fontWeight: 'bold'}}>{rowDictionary[index]}</Grid>)}
+                            <Grid item key={index} xs={12/rows} sx={{fontWeight: 'bold'}}>{props.rowDictionary[index]}</Grid>)}
                     </Grid>
                     <Grid container sx={containerStyle}>
                         {cinemaHallSeat?.map(seat =>
