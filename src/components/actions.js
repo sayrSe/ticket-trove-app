@@ -1,6 +1,6 @@
 import * as cinemaApi from '../api/cinemaApi';
-import { setDateOptions } from './dateOptionsReducer';
-import { setCinemas } from './cinemaReducers';
+import { setDateOptions } from './dateOptionsSlice';
+import { setCinemaNames } from './cinemaSlice';
 
 export const FETCH_ERROR = 'FETCH_ERROR';
 
@@ -24,16 +24,6 @@ export const fetchDateOptions = (movie_id) => async (dispatch) => {
     }
 };
 
-export const fetchCinemas = () => async (dispatch) => {
-  try {
-    const response = await cinemaApi.getCinemas();
-    const cinemas = response.data;
-    dispatch(setCinemas(cinemas));
-  } catch (error) {
-    console.error('Error fetching cinemas:', error);
-  }
-};
-
 export const getCinemaDetails = (movie_id) => {
   return async (dispatch) => {
     try {
@@ -44,4 +34,14 @@ export const getCinemaDetails = (movie_id) => {
       console.error('Error fetching cinema details:', error);
     }
   };
+};
+
+export const fetchCinemaNames = (movieId, date) => async (dispatch) => {
+  try {
+    const cinemaNames = await cinemaApi.getCinemaNames(movieId, date);
+    dispatch(setCinemaNames(cinemaNames));
+  } catch (error) {
+    console.error('Error fetching cinema names:', error);
+    dispatch(fetchError(error));
+  }
 };
