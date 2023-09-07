@@ -7,7 +7,6 @@ export const useShowtimes = () => {
 
     async function loadShowtimes(movieId, cinemaId, showDate){
         const response = await movieApi.getShowtimes(movieId, cinemaId, showDate);
-        console.log(`response: ${response}`);
         dispatch(resetShowTimes(response.data));
     }
 
