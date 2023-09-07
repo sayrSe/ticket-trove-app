@@ -1,4 +1,4 @@
-import { IconButton, ListItemText, ListItem, Box, Typography, Stack, Button } from "@mui/material"
+import { Grid, IconButton, ListItemText, ListItem, Box, Typography, Stack, Button } from "@mui/material"
 import React, { useState } from 'react'
 import ChosenMovieCard from './ChosenMovieCard';
 import { useNavigate } from "react-router-dom"
@@ -6,7 +6,8 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 const btnContainerStyle = {
     display: 'flex',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    marginBottom: '50px'
 }
 
 const backBtnStyle = {
@@ -62,7 +63,7 @@ const spanStyle = {
     marginBottom: 1.5
 }
 
-const showTimeItemContainer = {
+const showtimeItemContainer = {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -70,10 +71,28 @@ const showTimeItemContainer = {
     marginBottom: '30px'
 }
 
+const bookingDetailsContainer = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: '20px',
+}
+
 const mainShowTimeContainer = {
+
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: {
+        xs: 1,
+        md: 350,
+    }
+}
+
+const mainContainer = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
 }
 
 const Showtimes = () => {
@@ -131,24 +150,48 @@ const Showtimes = () => {
             hall: 'Hall 3',
         }]
     }
+    const hours = Math.floor((userInfo.movie.runtime)/60);
+    const minutes = userInfo.movie.runtime % 60;
     
     return (
         <>
-            <Box sx={mainShowTimeContainer}>
-                <Typography variant="h4" style={{ fontWeight: 'bold' }}>Seat Selection</Typography>
-                <ChosenMovieCard movie={userInfo.movie} />
-                <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
-                <Box component="span" sx={spanStyle}>{userInfo.date.substring(0,10)}</Box>
-                <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
-                <Box component="span" sx={spanStyle}>{userInfo.location}</Box>
-                <Typography variant="h6" sx={headerStyle}>Cinema Address:</Typography>
-                <Box component="span" sx={spanStyle}>{userInfo.address}</Box>
-                <Typography variant="h6" sx={headerStyle}>Select Showtime:</Typography>
-                <Box sx={showTimeItemContainer}>
+        <Grid>
+            <Box sx={mainContainer}>
+                <Box sx={mainShowTimeContainer}>
+                <Typography variant="h4" style={{ fontWeight: 'bold' }}>View Showtimes</Typography>
+                <Grid sx={{textAlign:'left', marginLeft: 2}}>
+                    <Typography variant="h6" style={{ fontFamily: "Lucida Sans" }}>{userInfo.movie.title}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{userInfo.movie.releaseDate?.split("-")[0]}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {userInfo.movie.rating}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {hours}h {minutes}mins </Typography>
+                </Grid>                
+                <Box
+                    component='img'
+                    sx={{
+                        width:'100%',
+                        height:'auto',
+                        maxHeight: 350,
+                        maxWidth: 250,
+                    }}
+                    src={userInfo.movie.poster}
+                    alt='Movie Poster'
+                >
+                </Box>
+                <Box sx={bookingDetailsContainer}>
+                    <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
+                    <Box component="span" sx={spanStyle}>{userInfo.date.substring(0,10)}</Box>
+                    <Typography variant="h6" sx={headerStyle}>Selected Location:</Typography>
+                    <Box component="span" sx={spanStyle}>{userInfo.location}</Box>
+                    <Typography variant="h6" sx={headerStyle}>Cinema Address:</Typography>
+                    <Box component="span" sx={spanStyle}>{userInfo.address}</Box>
+                    <Typography variant="h6" sx={headerStyle}>Select Showtime:</Typography>   
+                </Box>
+                <Box sx={showtimeItemContainer}>
                     { 
                     userInfo.showtimes.map(showtime => (
                     <ListItem onClick={() => handleShowtimeClick(showtime)}
-                    sx={showTimeItem} selected={selectedShowtime === showtime.showtime}>
+                    sx={showTimeItem}
+                    key={showtime.id} selected={selectedShowtime === showtime.showtime}>
                         <ListItemText
                             primary={`${displayShowtime(showtime.showtime)}, ${showtime.hall}`}
                         />
@@ -166,6 +209,10 @@ const Showtimes = () => {
                 <Button onClick={handleGoBack} className="back-btn" sx={backBtnStyle}>Go Back</Button>
                 <Button onClick={handleSeatSelection} className="select-seat" disabled={isDisabled} sx={selectSeatStyle}>Select Seats</Button>
             </Stack>
+            </Box>
+            
+        </Grid>
+            
         </>
     )
 }
