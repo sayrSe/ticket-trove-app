@@ -1,5 +1,6 @@
 import { Grid, Box } from '@mui/material'
 import SeatButton from './SeatButton'
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const boxStyle={
     width: {
@@ -40,26 +41,27 @@ const screenStyle = {
 }
 
 const SeatsGroup = (props) => {
-    const rowDictionary = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
     const rows = props.seatLayout?.maxRow;
     const columns = props.seatLayout?.maxCol;
     const cinemaHallSeat = props.seatLayout?.seats;
 
     return(
-        <>
-            <Box sx={screenStyle}>Screen</Box>
-            <Grid container sx={boxStyle}>
-                <Grid container sx={rowStyle} spacing={0}>
-                    {[...Array(rows)]?.map((row_number, index) => 
-                        <Grid item key={index} xs={12/columns} sx={{fontWeight: 'bold'}}>{rowDictionary[index]}</Grid>)}
+        <TransformWrapper>
+            <TransformComponent>
+                <Box sx={screenStyle}>Screen</Box>
+                <Grid container sx={boxStyle}>
+                    <Grid container sx={rowStyle} spacing={0}>
+                        {[...Array(rows)]?.map((row_number, index) => 
+                            <Grid item key={index} xs={12/rows} sx={{fontWeight: 'bold'}}>{props.rowDictionary[index]}</Grid>)}
+                    </Grid>
+                    <Grid container sx={containerStyle}>
+                        {cinemaHallSeat?.map(seat =>
+                            <Grid item key={seat.id} xs={12/columns} sx={itemStyle}><SeatButton key={seat.id} seat={seat} onChangeSeatState={props.onChangeSeatState} isMaxedOut={props.isMaxedOut} onMaxedClick={props.onMaxedClick}/></Grid>
+                        )}
+                    </Grid>
                 </Grid>
-                <Grid container sx={containerStyle}>
-                    {cinemaHallSeat?.map(seat =>
-                        <Grid item key={seat.id} xs={12/columns} sx={itemStyle}><SeatButton key={seat.id} seat={seat} onChangeSeatState={props.onChangeSeatState} isMaxedOut={props.isMaxedOut} onMaxedClick={props.onMaxedClick}/></Grid>
-                    )}
-                </Grid>
-            </Grid>
-        </>
+            </TransformComponent>
+        </TransformWrapper>
     )
 }
 
