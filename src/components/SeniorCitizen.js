@@ -5,11 +5,12 @@ import { styled } from '@mui/material/styles';
 import InfoIcon from '@mui/icons-material/Info';
 import * as React from 'react';
 import { Button } from "@mui/base";
+import { useLocation } from "react-router";
 const textStyle = {
     fontWeight: 'bold',
     width: '0.8',
     height: 0.2,
-    textAlign: 'left',
+    textAlign: 'center',
 }
 
 const boxStyle = {
@@ -21,6 +22,13 @@ const boxStyle = {
     alignItems: "center",
     justifyContent: "center"
 
+}
+const totalPriceStyle = {
+    fontWeight: 'bold',
+    width: '0.8',
+    height: 0.2,
+    textAlign: 'center',
+    textDecoration: "line-through",
 }
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -37,6 +45,8 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 
 const SeniorCitizen = () => {
     const [open, setOpen] = React.useState();
+    const [inputValue, setValue] = React.useState("");
+    const [totalStyle, setTotalPriceStyle] = React.useState(totalPriceStyle);
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -44,14 +54,50 @@ const SeniorCitizen = () => {
     const handleTooltipOpen = () => {
         setOpen(true);
     };
+    const senior = {
+        id: 1,
+        unitPrice: 400,
+        seatCount: 4
+    }
+    const handleChange = event => {
+        const newValue = event.target.value;
+        if (/^\d*\.?\d*$/.test(newValue) && newValue <= 4) {
+            setValue(newValue);
+            setTotalPriceStyle(totalPriceStyle);
+            if(newValue==="0"){
+                setTotalPriceStyle(textStyle);
+            }
+        }
+    }
+
+    const { search } = useLocation();
+    const parameters = new URLSearchParams(search);
+    const seats = parameters.get('seats');
+    const splitArray = seats.split('_');
+    const seatCount = splitArray.length;
+    
+
+    const totalPrice = senior.unitPrice
+    const discountPercentage = 20
+    const subtractedValue = (discountPercentage / 100) * totalPrice
+    const result = subtractedValue * inputValue
+
     return (
         <>
             <Box sx={{ boxStyle }}>
                 <Typography variant="h8" component="h4" sx={{ textStyle }}>Number of Senior Citizens: </Typography>
                 <TextField
+                    
                     id="senior-number"
-                    type="number"
                     size="small"
+                    variant="outlined"
+                    defaultValue="0"
+                    value={inputValue}
+                    onChange={handleChange}
+                    inputProps={{
+                        pattern: '^[0-9]*\\.?[0-9]*$',
+                    }}
+
                 />
                 <ClickAwayListener onClickAway={handleTooltipClose}>
                     <HtmlTooltip
@@ -80,12 +126,13 @@ const SeniorCitizen = () => {
                 </ClickAwayListener >
             </Box>
             <Box alignItems="left" justifyContent="left">
-                <Typography variant="h8" component="h4" sx={{ textStyle }}>Total Price: </Typography>
+                <Typography id="totalPriceField" variant="h8" component="h4" sx={totalStyle}>Total Price: {(senior.unitPrice) * seatCount} </Typography>
             </Box>
+
             <Box alignItems="left" justifyContent="left">
-                <Typography id="discountedPrice" variant="h8" component="h4" sx={{ textStyle }}></Typography>
+                <Typography id="discountedPrice" variant="h8" component="h4" sx={{ textStyle }}>{((senior.unitPrice) * seatCount)- result}</Typography>
             </Box>
-            
+
 
 
         </>
