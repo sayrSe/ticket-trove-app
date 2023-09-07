@@ -2,7 +2,7 @@ import { Button, Box, Typography, Stack } from '@mui/material';
 import ChosenMovieCard from './ChosenMovieCard';
 import SeatsGroup from './SeatsGroup';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -81,9 +81,9 @@ const SeatSelection = () => {
     const { loadSeats } = useSeats();
     const { findMovie } = useMovies();
 
-    const { id } = useParams();
     const { search } = useLocation();
     const parameters = new URLSearchParams(search);
+    const movieId = parameters.get('movie_id');
     const showtimeId = parameters.get('showtime_id');
     const userDate = parameters.get('date');
     const cinemaId = parameters.get('cinema_id');
@@ -91,7 +91,7 @@ const SeatSelection = () => {
     const [cinema, setCinema] = useState();
     
     useEffect(() => {
-        findMovie(id);
+        findMovie(movieId);
     }, []);
 
     useEffect(() => {
