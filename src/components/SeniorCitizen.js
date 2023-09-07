@@ -44,11 +44,6 @@ const SeniorCitizen = () => {
     const handleTooltipOpen = () => {
         setOpen(true);
     };
-    const toggleTotalPrice = document.getElementById('senior-number');
-    const toggleDiscountedPrice = document.getElementById('discountedPrice');
-    toggleTotalPrice.addEventListener('input', function(){
-        const inputValue = toggleTotalPrice;
-    })
     return (
         <>
             <Box sx={{ boxStyle }}>
