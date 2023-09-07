@@ -47,10 +47,8 @@ const MovieDetails = () => {
 
     const navigate = useNavigate();
     const handleViewLocations = () => {
-        navigate('/cinemas', { state: 
-            { movieInfo: movieInfo,
-                movieId: id 
-            } 
+        navigate(`/cinemas?movie_id=${id}`, { state: 
+            { movieInfo: movieInfo } 
         });
     };
     

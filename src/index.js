@@ -24,7 +24,7 @@ const router = createBrowserRouter([{
       element: <Home />
     },
     {
-      path: '/cinemas/',
+      path: '/cinemas',
       element: <ViewLocations />,
     },
     {
