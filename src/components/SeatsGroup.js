@@ -16,8 +16,7 @@ const rowStyle={
     width: 0.05,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginTop: 5,
+    justifyContent: 'space-between'
 }
 
 const containerStyle = {
@@ -50,9 +49,9 @@ const SeatsGroup = (props) => {
         <>
             <Box sx={screenStyle}>Screen</Box>
             <Grid container sx={boxStyle}>
-                <Grid container sx={rowStyle}>
+                <Grid container sx={rowStyle} spacing={0}>
                     {[...Array(rows)]?.map((row_number, index) => 
-                        <Grid item key={index} xs={12/columns} sx={{fontWeight: 'bold', flex: 1}}>{rowDictionary[index]}</Grid>)}
+                        <Grid item key={index} xs={12/columns} sx={{fontWeight: 'bold'}}>{rowDictionary[index]}</Grid>)}
                 </Grid>
                 <Grid container sx={containerStyle}>
                     {cinemaHallSeat?.map(seat =>

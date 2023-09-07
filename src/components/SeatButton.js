@@ -1,5 +1,5 @@
 import EventSeatIcon from '@mui/icons-material/EventSeat';
-import {Button} from '@mui/material'
+import { IconButton } from '@mui/material'
 import { useState } from 'react'
 
 const iconStyleReserved = {
@@ -45,7 +45,7 @@ const SeatButton = (props) => {
     }
 
     return(
-        <Button onClick={onSeatClick} disabled={props.seat.reserved || !props.seat.available}>{props.seat.available && <EventSeatIcon sx={iconStyle}/>}</Button>
+        <IconButton onClick={onSeatClick} sx={{padding: 0}} disabled={props.seat.reserved || !props.seat.available}>{props.seat.available && <EventSeatIcon sx={iconStyle}/>}</IconButton>
     )    
 }
 
