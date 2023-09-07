@@ -190,7 +190,7 @@ const Showtimes = () => {
                     sx={showTimeItem}
                     key={showtime.id} selected={selectedShowtime === showtime.id}>
                         <ListItemText
-                            primary={`${displayShowtime(showtime.startTime)}, Hall ${showtime.hallId}`}
+                            primary={`${displayShowtime(showtime.startTime)}, Hall ${showtime.hall.hallNumber}`}
                         />
                         {selectedShowtime === showtime.id && (
                             <IconButton color="primary">
