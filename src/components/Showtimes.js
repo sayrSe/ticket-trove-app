@@ -129,7 +129,7 @@ const Showtimes = () => {
         navigate(-1);
     }
     const handleSeatSelection = () => {
-        navigate(`cinemas/seats?showtime_id=${selectedShowtime}`);
+        navigate(`/cinemas/seats?showtime_id=${selectedShowtime}`);
     }
 
     const handleShowtimeClick = (showtime) => {
