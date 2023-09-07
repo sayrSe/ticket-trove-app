@@ -12,6 +12,7 @@ import { store } from '../src/app/store';
 import Showtimes from './components/Showtimes';
 import MovieDetails from './components/MovieDetails';
 import SeatSelection from './components/SeatSelection';
+import Confirmation from './components/Confirmation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([{
@@ -38,6 +39,10 @@ const router = createBrowserRouter([{
     {
       path: "/cinemas/seats",
       element: <SeatSelection />
+    },
+    {
+      path: "/confirmation",
+      element: <Confirmation />
     }
   ]
 }])
