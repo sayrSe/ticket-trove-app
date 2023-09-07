@@ -110,17 +110,6 @@ const SeatSelection = () => {
     const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    const handleLoading = () => {
-        setIsLoading(false);
-    }
-
-    useEffect(()=>{
-        window.addEventListener("load",handleLoading);
-        return () => window.removeEventListener("load",handleLoading);
-    },[])
-
     useEffect(() => {
         const fetchData = async () => {
             const response = await showtimeApi.getShowtimeById(showtimeId);
