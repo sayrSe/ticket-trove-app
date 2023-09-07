@@ -1,6 +1,5 @@
 import { Grid, IconButton, ListItemText, ListItem, Box, Typography, Stack, Button } from "@mui/material"
 import React, { useState } from 'react'
-import ChosenMovieCard from './ChosenMovieCard';
 import { useNavigate } from "react-router-dom"
 import CircleIcon from '@mui/icons-material/Circle';
 
@@ -79,7 +78,6 @@ const bookingDetailsContainer = {
 }
 
 const mainShowTimeContainer = {
-
     alignItems: 'center',
     justifyContent: 'center',
     width: {
@@ -159,9 +157,9 @@ const Showtimes = () => {
             <Box sx={mainContainer}>
                 <Box sx={mainShowTimeContainer}>
                 <Typography variant="h4" style={{ fontWeight: 'bold' }}>View Showtimes</Typography>
-                <Grid sx={{textAlign:'left', marginLeft: 2}}>
+                <Grid sx={{textAlign:'left', marginLeft: 2, marginBottom: 1}}>
                     <Typography variant="h6" style={{ fontFamily: "Lucida Sans" }}>{userInfo.movie.title}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{userInfo.movie.releaseDate?.split("-")[0]}</Typography>
+                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{userInfo.movie.release}</Typography>
                     <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {userInfo.movie.rating}</Typography>
                     <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {hours}h {minutes}mins </Typography>
                 </Grid>                
