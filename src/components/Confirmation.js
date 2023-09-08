@@ -96,6 +96,8 @@ const Confirmation = () => {
     const { search } = useLocation();
     const parameters = new URLSearchParams(search);
     const showtimeId = parameters.get('showtime_id');
+    const seats = parameters.get('seats');
+    const selectedSeats = seats?.split('_');
     const [movieId, setMovieId] = useState('');
     const [showtime, setShowtime] = useState('');
     const [cinemaId, setCinemaId] = useState('');
@@ -199,7 +201,7 @@ const Confirmation = () => {
                 </DialogActions>
             </BootstrapDialog>
 
-            <DetailsGroup movie={movieInfo} showtime={showtime} cinema={cinema}/>
+            <DetailsGroup movie={movieInfo} showtime={showtime} cinema={cinema} selectedSeats={selectedSeats}/>
             <OtpConfirmation updateCode={updateCode} updatePhone={updatePhone}/>
             <SeniorCitizen/>
             <Stack direction='row' spacing={2}>
