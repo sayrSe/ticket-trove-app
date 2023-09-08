@@ -1,5 +1,5 @@
-import MovieCard from "./MovieCard";
 import { Typography, Box } from '@mui/material';
+import ChosenMovieCard from './ChosenMovieCard';
 
 const headerStyle={
     marginLeft: 2,
@@ -17,7 +17,7 @@ const spanStyle = {
 const DetailsGroup = (props) => {
     return(
         <>
-            <MovieCard movie={props.movie}/>
+            <ChosenMovieCard movie={props.movie}/>
             <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
             <Box component="span" sx={spanStyle}>{new Date(props.showtime?.startTime).toLocaleDateString("en-PH", {year: 'numeric', month: 'long', day: 'numeric'})}</Box>
             
