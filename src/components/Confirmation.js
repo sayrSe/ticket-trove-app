@@ -54,6 +54,18 @@ const confirmButtonStyle={
     },
 }
 
+const homeButtonStyle={
+    backgroundColor: '#00A4BD',
+    color: '#FAFAFA',
+    textTransform: 'none',
+    '&:hover':{
+        backgroundColor: '#F2B000',
+        textDecoration: 'underline',
+        fontWeight: 'bold'
+    },
+    margin: '0 auto'
+}
+
 const backButtonStyle = {
     backgroundColor: '#666',
     color: '#fafafa',
@@ -175,13 +187,13 @@ const Confirmation = () => {
             </BootstrapDialog>
 
             <BootstrapDialog onClose={handleClose} aria-labelledby="maxed-out-seats" open={openSuccess}>
-                <DialogTitle sx={{ m: 0, p: 2 }} id="wrong-code">Congrats, you've successfully booked tickets!</DialogTitle>
+                <DialogTitle sx={{ m: 0, p: 2, backgroundColor: '#00A4BD', color: "#fafafa"}} id="successful">Congrats, you've successfully booked tickets!</DialogTitle>
                 <DialogContent dividers>
                 <Typography gutterBottom>Please arrive at your chosen cinema location 20 minutes before your selected showtime to settle your payment.</Typography>
                 <Typography gutterBottom>The booking information will also be sent on your phone number via SMS.</Typography>
                 </DialogContent>
                 <DialogActions>
-                <Button autoFocus component={NavLink} to={'/'} sx={confirmButtonStyle}>
+                <Button autoFocus component={NavLink} to={'/'} sx={homeButtonStyle}>
                     Go Home
                 </Button>
                 </DialogActions>
