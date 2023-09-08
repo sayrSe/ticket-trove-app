@@ -105,9 +105,9 @@ const SeniorCitizen = () => {
                         }}
                         onClose={handleTooltipClose}
                         open={open}
-                        disableFocusListener
-                        disableHoverListener
-                        disableTouchListener
+                        // disableFocusListener
+                        // disableHoverListener
+                        // disableTouchListener
 
                         title={
                             <React.Fragment>
