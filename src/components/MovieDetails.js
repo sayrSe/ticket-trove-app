@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useParams, useNavigate } from "react-router-dom"
 import { useMovies } from "../hooks/useMovies"
+import ChosenMovieCard from "./ChosenMovieCard"
 
 const buttonStyle = {
     marginTop:2,
@@ -15,23 +16,30 @@ const buttonStyle = {
         fontWeight: 'bold'
     }
 }
-const boxStyle = {
-    width: {
-        xs: 1,
-        md: 350,
-    },
-    marginTop: 2,
-    alignItems:"center",
-    justifyContent:"center"
-
-}
-const boxContainerStyle = {
+const boxStyle={
     marginTop: 5,
     display: "flex",
     flexDirection: 'column',
     alignItems: "center",
-    marginBottom:5,
-    justifyContent:"center"
+    justifyContent:"center",
+    width:{
+        xs: 1,
+        md: 600,
+        lg: 800
+    },
+    margin: '0 auto',
+    marginBottom: 10,
+}
+
+const headerStyle={
+    alignSelf: 'flex-start',
+    textAlign: 'left',
+    fontWeight: 'bold'
+}
+
+const spanStyle = {
+    alignSelf: 'flex-start',
+    marginBottom: 1.5
 }
 
 
@@ -58,54 +66,30 @@ const MovieDetails = () => {
     };
     
     return (
-        <>
-        <Grid>
-            <Box sx={boxContainerStyle}>
-                <Box sx={boxStyle}>
-                    <Grid sx={{textAlign:"left", marginLeft: 2}}>
-                    <Typography variant="h4" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.releaseDate?.split("-")[0]}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ◦ {movieInfo.rating}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> ◦ {hours}h {minutes}mins </Typography>
-                    </Grid>
-                    <Box
-                        component="img"
-                        sx={{
-                            width: "100%",
-                            height: "auto",
-                            maxHeight: 350,
-                            maxWidth: 250,
-                        }}
-                        src={movieInfo.poster}
-                        alt="Movie Poster"
-                    />
-                    <Grid sx={{textAlign:"left" , marginLeft: 2}}>
-                    <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
-                        <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>
-                            Directed by:
-                        </Typography>
-                    </Box>
-                    <Typography >{movieInfo.director}</Typography>
-                    <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
-                        <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>
-                            Synopsis
-                        </Typography>
-                    </Box>
-                    <Typography >{movieInfo.synopsis}</Typography>
-                    <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
-                        <Typography variant="h5" style={{ fontFamily: "Lucida Sans" }}>
-                            Cast
-                        </Typography>
-                    </Box>
-                    <Typography >{movieInfo.actors}</Typography>
-                  </Grid>
+        <Box sx={boxStyle}>
+            <ChosenMovieCard movie={movieInfo}/>
+            <Grid sx={{textAlign:"left" , marginLeft: 2}}>
+                <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
+                    <Typography variant="h6" sx={headerStyle}>
+                        Directed by:
+                    </Typography>
                 </Box>
-                <Button variant="contained"  sx={buttonStyle} onClick={handleViewLocations}>View Locations</Button>
-            </Box>
-            </Grid>
-
-        </>
-
+                <Box component="span" sx={spanStyle}>{movieInfo.director}</Box>
+                <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
+                    <Typography variant="h6" sx={headerStyle}>
+                        Synopsis
+                    </Typography>
+                </Box>
+                <Box component="span" sx={spanStyle}>{movieInfo.synopsis}</Box>
+                <Box sx={{ fontWeight: 'bold', textDecoration: 'underline' }}>
+                    <Typography variant="h6" sx={headerStyle}>
+                        Cast
+                    </Typography>
+                </Box>
+                <Box component="span" sx={spanStyle}>{movieInfo.actors}</Box>
+                </Grid>
+            <Button variant="contained"  sx={buttonStyle} onClick={handleViewLocations}>View Locations</Button>
+        </Box>
     )
 }
 export default MovieDetails;

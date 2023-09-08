@@ -6,6 +6,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { useMovies } from '../hooks/useMovies';
 import { useShowtimes } from '../hooks/useShowtimes';
 import { useCinemas } from '../hooks/useCinemas';
+import ChosenMovieCard from "./ChosenMovieCard";
 
 const btnContainerStyle = {
     display: 'flex',
@@ -156,24 +157,7 @@ const Showtimes = () => {
             <Box sx={mainContainer}>
                 <Box sx={mainShowTimeContainer}>
                 <Typography variant="h4" style={{ fontWeight: 'bold' }}>View Showtimes</Typography>
-                <Grid sx={{textAlign:'left', marginLeft: 2, marginBottom: 1}}>
-                    <Typography variant="h6" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.releaseDate.split('-')[0]}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {movieInfo.rating}</Typography>
-                    <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {hours}h {minutes}mins </Typography>
-                </Grid>                
-                <Box
-                    component='img'
-                    sx={{
-                        width:'100%',
-                        height:'auto',
-                        maxHeight: 350,
-                        maxWidth: 250,
-                    }}
-                    src={movieInfo.poster}
-                    alt='Movie Poster'
-                >
-                </Box>
+                <ChosenMovieCard movie={movieInfo}/>
                 <Box sx={bookingDetailsContainer}>
                     <Typography variant="h6" sx={headerStyle}>Selected Date:</Typography>
                     <Box component="span" sx={spanStyle}>{showDate.substring(0,10)}</Box>

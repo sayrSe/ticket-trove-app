@@ -46,28 +46,35 @@ const spanStyle = {
 
 const backButtonStyle = {
     backgroundColor: '#666',
-    color: '#fafafa',
-    '&:hover':{
-        backgroundColor: '#F2B000',
-        textDecoration: 'underline',
-        fontWeight: 'bold'
-    },
-}
-
-const bookDisabledButtonStyle = {
-    backgroundColor: '#eee',
-    color: '#fafafa'
+    width: '150px',
+    height: '55px',
+    color: '#FAFAFA',
+    fontSize: '20px',
+    fontWeight: '700',
+    margin: 0,
+    '&:hover': {
+        backgroundColor: '#aaa',
+        color: '#FAFAFA',
+    }
 }
 
 const themedButtonStyle = {
     backgroundColor: '#00A4BD',
-    color: '#fafafa',
-    '&:hover':{
-        backgroundColor: '#F2B000',
-        textDecoration: 'underline',
-        fontWeight: 'bold'
+    width: '194px',
+    height: '55px',
+    fontSize: '20px',
+    fontWeight: '700',
+    color:'#FAFAFA',
+    '&:disabled': {
+        backgroundColor: '#B9B9B9',
+        color: '#FAFAFA',
     },
+    '&:hover': {
+        color:'#FAFAFA',
+        backgroundColor:'#F2B000'
+    }
 }
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -106,7 +113,6 @@ const SeatSelection = () => {
     const [isMaxedOut, setMaxedOut] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
     const [totalAmount, setTotalAmount] = useState(0.00);
-    const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -159,7 +165,6 @@ const SeatSelection = () => {
             newSelectedSeats = [...selectedSeats, newSeat].sort((a,b) => a.rowNum-b.rowNum || a.seatNum-b.seatNum);
             setSelectedSeats(newSelectedSeats)
             setDisabled(false);
-            setButtonStyle(themedButtonStyle);
             selectedLength++;
             if(selectedLength === maxAmount) setMaxedOut(true);
         }else{
@@ -169,7 +174,6 @@ const SeatSelection = () => {
             selectedLength--;
             if(selectedLength=== 0){
                 setDisabled(true);
-                setButtonStyle(bookDisabledButtonStyle);
            }
         }
         setTotalAmount(selectedLength*ticketPrice);
@@ -226,7 +230,7 @@ const SeatSelection = () => {
         
         <Stack direction='row' spacing={2}>
             <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
-            <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtime_id=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
+            <Button sx={themedButtonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtime_id=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
         </Stack>
     </Box>
     )

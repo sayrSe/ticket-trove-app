@@ -17,7 +17,7 @@ const textStyle={
 }
 
 const imageStyle={
-    width: "100%",
+    width: "80%",
     height: "auto",
     maxWidth: 400
 }

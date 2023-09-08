@@ -68,12 +68,33 @@ const homeButtonStyle={
 
 const backButtonStyle = {
     backgroundColor: '#666',
-    color: '#fafafa',
-    '&:hover':{
-        backgroundColor: '#F2B000',
-        textDecoration: 'underline',
-        fontWeight: 'bold'
+    width: '150px',
+    height: '55px',
+    color: '#FAFAFA',
+    fontSize: '20px',
+    fontWeight: '700',
+    margin: 0,
+    '&:hover': {
+        backgroundColor: '#aaa',
+        color: '#FAFAFA',
+    }
+}
+
+const themedButtonStyle = {
+    backgroundColor: '#00A4BD',
+    width: '194px',
+    height: '55px',
+    fontSize: '19px',
+    fontWeight: '700',
+    color:'#FAFAFA',
+    '&:disabled': {
+        backgroundColor: '#B9B9B9',
+        color: '#FAFAFA',
     },
+    '&:hover': {
+        color:'#FAFAFA',
+        backgroundColor:'#F2B000'
+    }
 }
 
 const disabledButtonStyle={
@@ -85,7 +106,6 @@ const Confirmation = () => {
     const [code, setCode] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('')
     const [disabledButton, setDisabledButton] = useState(true);
-    const [confirmStyle, setConfirmStyle] = useState(disabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
     const [openSuccess, setOpenSuccess] = useState(false);
 
@@ -133,10 +153,8 @@ const Confirmation = () => {
     useEffect(() => {
         if(code.length > 0){
             setDisabledButton(false);
-            setConfirmStyle(confirmButtonStyle);
         }else{
             setDisabledButton(true);
-            setConfirmStyle(disabledButtonStyle);
         }
     }, [code]);
 
@@ -206,7 +224,7 @@ const Confirmation = () => {
             <SeniorCitizen/>
             <Stack direction='row' spacing={2}>
                 <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
-                <Button sx={confirmStyle} disabled={disabledButton} onClick={handleVerificationClick}>Confirm Booking</Button>
+                <Button sx={themedButtonStyle} disabled={disabledButton} onClick={handleVerificationClick}>Confirm Booking</Button>
             </Stack>
         </Box>
     )

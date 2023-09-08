@@ -22,6 +22,7 @@ import {
 import CircleIcon from '@mui/icons-material/Circle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { getCinemaNames } from '../api/cinemaApi';
+import ChosenMovieCard from './ChosenMovieCard';
 
 const ViewLocations = () => {
   const [dateOptions, setDateOptions] = useState([]);
@@ -237,24 +238,7 @@ const backBtnStyle = {
           <Box sx={mainContainer}>
             <Box sx={mainLocationContainer}>
               <Typography variant="h4" style={{ fontWeight: 'bold' }}>View Locations</Typography>
-              <Grid sx={{ textAlign: 'left', marginLeft: 2, marginBottom: 1 }}>
-                <Typography variant="h6" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.title}</Typography>
-                <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}>{movieInfo.releaseDate?.split("-")[0]}</Typography>
-                <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {movieInfo.rating}</Typography>
-                <Typography variant="h8" style={{ fontFamily: "Lucida Sans" }}> • {hours}h {minutes}mins </Typography>
-              </Grid>
-              <Box
-                component='img'
-                sx={{
-                  width: '100%',
-                  height: 'auto',
-                  maxHeight: 350,
-                  maxWidth: 250,
-                }}
-                src={movieInfo.poster}
-                alt='Movie Poster'
-              >
-              </Box>
+              <ChosenMovieCard movie={movieInfo}/>
               <Box sx={selectDateContainer}>
                 <Typography variant="h6" sx={headerStyle}>Select Date:</Typography>
                 <Box component="span" sx={showItemDate}>
@@ -325,7 +309,7 @@ const backBtnStyle = {
                 onClick={handleViewShowtimes}
                 disabled={!(selectedDate && selectedLocation)}
                 style={{
-                  backgroundColor: selectedLocation && selectedDate ? '#00A4BD' : 'gray',
+                  backgroundColor: selectedLocation && selectedDate ? '#00A4BD' : '#B9B9B9',
                   color: selectedLocation && selectedDate ? '#FAFAFA' : 'white',
                 }}
                 sx={selectShowtimeStyle}
