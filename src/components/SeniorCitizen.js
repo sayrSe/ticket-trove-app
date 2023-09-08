@@ -120,9 +120,9 @@ const SeniorCitizen = () => {
                                 <Typography textAlign="left" color="inherit"><b>{'Information'}</b></Typography>
                                 <Typography variant="h7">If the user is aged 60 or older, we will give a 20% discount.
                                     Please take your identity card when you arrived at the cinema location</Typography>
-                                <div>
+                                {/* <div>
                                     <Button variant="text" size="small" onClick={handleTooltipClose}>Close</Button>
-                                </div>
+                                </div> */}
                             </React.Fragment>
                         }
                     >
