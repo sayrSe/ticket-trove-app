@@ -61,7 +61,7 @@ const SeniorCitizen = () => {
     };
     const senior = {
         id: 1,
-        unitPrice: 400,
+        unitPrice: 350,
     }
     const handleChange = event => {
         const newValue = event.target.value;
