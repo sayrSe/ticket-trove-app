@@ -6,6 +6,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import * as React from 'react';
 import { Button } from "@mui/base";
 import { useLocation } from "react-router";
+
 const textStyle = {
     fontWeight: 'bold',
     width: '0.8',
@@ -30,6 +31,9 @@ const totalPriceStyle = {
     textAlign: 'center',
     textDecoration: "line-through",
 }
+const hiddenStyle={
+    visibility: 'hidden'
+}
 
 const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -47,6 +51,7 @@ const SeniorCitizen = () => {
     const [open, setOpen] = React.useState();
     const [inputValue, setValue] = React.useState("");
     const [totalStyle, setTotalPriceStyle] = React.useState(textStyle);
+    const [discountedTextStyle, setDiscountedTextStyle] = React.useState(hiddenStyle);
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -60,12 +65,13 @@ const SeniorCitizen = () => {
     }
     const handleChange = event => {
         const newValue = event.target.value;
-
-        if (/^\d*\.?\d*$/.test(newValue) && newValue <= 4) {
+        if (/^\d*\.?\d*$/.test(newValue) && newValue <= seatCount) {
             setValue(newValue);
             setTotalPriceStyle(totalPriceStyle);
+            setDiscountedTextStyle(textStyle);
             if(newValue == 0 || newValue === ''){
                 setTotalPriceStyle(textStyle);
+                setDiscountedTextStyle(hiddenStyle);
             }
         }
     }
@@ -109,8 +115,8 @@ const SeniorCitizen = () => {
                         // disableHoverListener
                         // disableTouchListener
 
-                        title={
-                            <React.Fragment>
+                    title={
+                       <React.Fragment>
                                 <Typography textAlign="left" color="inherit"><b>{'Information'}</b></Typography>
                                 <Typography variant="h7">If the user is aged 60 or older, we will give a 20% discount.
                                     Please take your identity card when you arrived at the cinema location</Typography>
@@ -122,14 +128,13 @@ const SeniorCitizen = () => {
                     >
                         <InfoIcon color="action" fontSize="small" onClick={handleTooltipOpen} />
                     </HtmlTooltip>
-
             </Box>
             <Box alignItems="left" justifyContent="left">
                 <Typography id="totalPriceField" variant="h8" component="h4" sx={totalStyle}>Total Price: {(senior.unitPrice) * seatCount} </Typography>
             </Box>
 
             <Box alignItems="left" justifyContent="left">
-                <Typography id="discountedPrice" variant="h8" component="h4" sx={{ textStyle }}>{((senior.unitPrice) * seatCount)- result}</Typography>
+                <Typography id="discountedPrice" variant="h8" component="h4" sx={ discountedTextStyle }>Discounted Price: {((senior.unitPrice) * seatCount)- result}</Typography>
             </Box>
 
 
