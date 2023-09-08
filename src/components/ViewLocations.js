@@ -122,11 +122,6 @@ const handleViewShowtimes = () => {
     setDialogOpen(true);
   }
 
-  const grayButtonStyle = {
-    backgroundColor: 'gray',
-    color: 'white',
-  }
-
   const blackButtonStyle = {
     borderColor: 'black',
     color: 'black',
@@ -297,21 +292,15 @@ const backBtnStyle = {
               <Button
                 variant="contained"
                 onClick={handleGoBack}
-                style={grayButtonStyle}
                 sx={backBtnStyle}
               >
                 Go Back
-              </Button>
-              
+              </Button>              
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleViewShowtimes}
                 disabled={!(selectedDate && selectedLocation)}
-                style={{
-                  backgroundColor: selectedLocation && selectedDate ? '#00A4BD' : '#B9B9B9',
-                  color: selectedLocation && selectedDate ? '#FAFAFA' : 'white',
-                }}
                 sx={selectShowtimeStyle}
               >
                 View Showtimes
