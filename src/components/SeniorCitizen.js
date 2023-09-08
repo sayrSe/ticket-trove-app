@@ -6,7 +6,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import * as React from 'react';
 import { Button } from "@mui/base";
 import { useLocation } from "react-router";
-import { ClickAwayListener } from '@mui/base';
 
 const textStyle = {
     fontWeight: 'bold',
@@ -63,7 +62,6 @@ const SeniorCitizen = () => {
     const senior = {
         id: 1,
         unitPrice: 400,
-        seatCount: 4
     }
     const handleChange = event => {
         const newValue = event.target.value;
@@ -95,7 +93,7 @@ const SeniorCitizen = () => {
             <Box sx={{ boxStyle }}>
                 <Typography variant="h8" component="h4" sx={{ textStyle }}>Number of Senior Citizens: </Typography>
                 <TextField
-                    
+                
                     id="senior-number"
                     size="small"
                     variant="outlined"
@@ -107,15 +105,15 @@ const SeniorCitizen = () => {
                     }}
 
                 />
-                <HtmlTooltip
-                    PopperProps={{
-                        disablePortal: true,
-                    }}
-                    onClose={handleTooltipClose}
-                    open={open}
-                    disableFocusListener
-                    disableHoverListener
-                    disableTouchListener
+                    <HtmlTooltip
+                        PopperProps={{
+                            disablePortal: true,
+                        }}
+                        onClose={handleTooltipClose}
+                        open={open}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
 
                     title={
                        <React.Fragment>
@@ -128,8 +126,8 @@ const SeniorCitizen = () => {
                             </React.Fragment>
                         }
                     >
-                    <InfoIcon color="action" fontSize="small" onClick={handleTooltipOpen} />
-                </HtmlTooltip>
+                        <InfoIcon color="action" fontSize="small" onClick={handleTooltipOpen} />
+                    </HtmlTooltip>
             </Box>
             <Box alignItems="left" justifyContent="left">
                 <Typography id="totalPriceField" variant="h8" component="h4" sx={totalStyle}>Total Price: {(senior.unitPrice) * seatCount} </Typography>
