@@ -75,6 +75,15 @@ const themedButtonStyle = {
     }
 }
 
+const bookDisabledButtonStyle={
+    width: '194px',
+    height: '55px',
+    fontSize: '20px',
+    fontWeight: '700',
+    backgroundColor: '#B9B9B9',
+    color: '#FAFAFA',
+}
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -113,6 +122,7 @@ const SeatSelection = () => {
     const [isMaxedOut, setMaxedOut] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
     const [totalAmount, setTotalAmount] = useState(0.00);
+    const [buttonStyle, setButtonStyle] = useState(bookDisabledButtonStyle);
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -165,6 +175,7 @@ const SeatSelection = () => {
             newSelectedSeats = [...selectedSeats, newSeat].sort((a,b) => a.rowNum-b.rowNum || a.seatNum-b.seatNum);
             setSelectedSeats(newSelectedSeats)
             setDisabled(false);
+            setButtonStyle(themedButtonStyle);
             selectedLength++;
             if(selectedLength === maxAmount) setMaxedOut(true);
         }else{
@@ -174,6 +185,7 @@ const SeatSelection = () => {
             selectedLength--;
             if(selectedLength=== 0){
                 setDisabled(true);
+                setButtonStyle(bookDisabledButtonStyle);
            }
         }
         setTotalAmount(selectedLength*ticketPrice);
@@ -230,7 +242,7 @@ const SeatSelection = () => {
         
         <Stack direction='row' spacing={2}>
             <Button sx={backButtonStyle} onClick={() => navigate(-1)}>Go Back</Button>
-            <Button sx={themedButtonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtime_id=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket</Button>
+            <Button sx={buttonStyle} disabled={isDisabled} component={NavLink} to={`/confirmation?showtime_id=${showtimeId}&seats=${selectedDisplay.join('_')}`}>Book Ticket{isDisabled}</Button>
         </Stack>
     </Box>
     )

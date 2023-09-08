@@ -97,11 +97,6 @@ const themedButtonStyle = {
     }
 }
 
-const disabledButtonStyle={
-    backgroundColor: '#aaaaaa',
-    WebkitTextFillColor: "#fafafa",
-}
-
 const Confirmation = () => {
     const [code, setCode] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('')
